@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400&family=Fauna+One&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quantico&family=Source+Sans+Pro&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e133c;
+}
+
+.app {
+  margin: auto;
+}
