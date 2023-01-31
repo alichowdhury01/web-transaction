@@ -20,7 +20,7 @@ export default function SignIn() {
       password: data.get('password'),
     });
     try {
-      const response = await fetch('http://localhost/Session%204/Projet-Web-Trans/Projet-Web-Trans/turbo-molotov/server/membre/connexion.php', {
+      const response = await fetch('http://localhost/Session%204/web-transaction/turbo-molotov/server/membre/connexion.php', {
           method: 'POST',
           body: data
       });
