@@ -43,5 +43,6 @@
                 unset($connexion); //Detruire la connexion		
         }
         executerRequette();
+        // header("Location : localhost:3000");
         exit();
         ?>
