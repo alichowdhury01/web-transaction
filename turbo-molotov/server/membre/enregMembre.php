@@ -37,10 +37,11 @@
                 $requette = "INSERT INTO connexion  VALUES(?, ?, ?, 'M', 'A')";
                 $stmt = $connexion->prepare($requette);
                 $stmt->execute([$id,$email, $password]);
-
+                
+                $msg = array("msg" => "Membre $email bien enregistre");
+                echo json_encode($msg);
                 unset($connexion); //Detruire la connexion		
         }
         executerRequette();
-        echo "Membre $email bien enregistre";
         exit();
         ?>
