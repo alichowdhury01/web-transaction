@@ -12,12 +12,12 @@
         $stmt->execute([$email]);
         while ($row = $stmt->fetch()) {
             if($row['pass'] === $password){
-                if($row['role' === "M"]){
+                if($row['role'] === "M"){
                     session_start();
-                    echo("Vous etes connecté!");
+                    echo encode_json("msg" => "Vous etes connecté!");
                     header("Location: http://localhost:3000/membre");
-                }else if($row['role' === "M"]){
-                    echo("Vous etes connecté!");
+                }else if($row['role'] === "A"){
+                    echo json_encode("msg" => "Vous etes connecté!");
                     session_start();
                     header("Location: http://localhost:3000/admin");
                 }
@@ -36,7 +36,7 @@
             if($row['courriel'] === $email){
                 validerMDP();
             }
-            echo("email non-valide réessayer de nouveaux \n");
+            echo json_encode("msg" => "email non-valide réessayer de nouveaux \n");
         }
         unset($connexion); //Detruire la connexion		
     }
