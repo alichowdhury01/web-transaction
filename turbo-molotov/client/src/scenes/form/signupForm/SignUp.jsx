@@ -25,7 +25,7 @@ const SignUp = () => {
         alert("Passwords do not match. Please try again.");
     } else {
         try {
-          const response = await fetch('http://localhost/Session%204/web-transaction/web-transaction/turbo-molotov/server/membre/enregMembre.php', {
+          const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/enregMembre.php', {
               method: 'POST',
               body: data
           });
@@ -35,9 +35,10 @@ const SignUp = () => {
           console.error(error);
       }
     }
+
+
 };
 
-    
       return (
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
@@ -51,7 +52,7 @@ const SignUp = () => {
               }}
             >
 
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }} method="POST">
+              <Box component="form" noValidate={false} onSubmit={handleSubmit} sx={{ mt: 3 }} method="POST">
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField

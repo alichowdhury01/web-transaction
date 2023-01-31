@@ -12,11 +12,11 @@
         $stmt->execute([$email]);
         while ($row = $stmt->fetch()) {
             if($row['pass'] === $password){
-                if($row['role' === "M"]){
+                if($row['role'] === "M"){
                     session_start();
                     echo("Vous etes connecté!");
                     header("Location: http://localhost:3000/membre");
-                }else if($row['role' === "M"]){
+                }else if($row['role'] === "M"){
                     echo("Vous etes connecté!");
                     session_start();
                     header("Location: http://localhost:3000/admin");
@@ -33,10 +33,12 @@
         $stmt = $connexion->prepare($requette);
         $stmt->execute();
         while ($row = $stmt->fetch()) {
-            if($row['courriel'] === $email){
-                validerMDP();
+            if($row['courriel'] === $email ){
+                validerMDP();echo json_encode("email valide");
             }
-            echo("email non-valide réessayer de nouveaux \n");
+            else{
+                echo json_encode("email non-valide réessayer de nouveaux ");
+            }
         }
         unset($connexion); //Detruire la connexion		
     }

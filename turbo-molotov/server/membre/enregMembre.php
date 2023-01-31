@@ -22,8 +22,7 @@
         // }
 
         function executerRequette(){
-                global $connexion, $firstName, $lastName, $gender, $dateNaissance, $email
-                ,$password;/* , $nouveauNom*/ 
+                global $connexion, $firstName, $lastName, $gender, $dateNaissance, $email, $password;/* , $nouveauNom*/ 
                 $requette = "INSERT INTO membres VALUES(0, ?, ?, ?, ?, ?)";
                 $stmt = $connexion->prepare($requette);
                 $stmt->execute([$firstName, $lastName, $email, $gender, $dateNaissance]);
@@ -37,10 +36,9 @@
                 $requette = "INSERT INTO connexion  VALUES(?, ?, ?, 'M', 'A')";
                 $stmt = $connexion->prepare($requette);
                 $stmt->execute([$id,$email, $password]);
-
                 unset($connexion); //Detruire la connexion		
         }
         executerRequette();
-        echo "Membre $email bien enregistre";
+        echo json_encode("Membre $email bien enregistre");
         exit();
         ?>
