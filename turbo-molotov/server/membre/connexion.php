@@ -22,6 +22,8 @@
                     header("Location: http://localhost:3000/admin");
                 }
                 
+            }else{
+                echo encode_json("msg" => "Mot de passe non-valide!");
             }
         }
         exit();
