@@ -3,7 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { shades } from "../../theme";
+import { shades } from "../theme";
 
 // imports all images from assets folder
 const importAll = (r) =>
@@ -13,7 +13,7 @@ const importAll = (r) =>
   }, {});
 
 export const heroTextureImports = importAll(
-  require.context("../../assets/pictures", false, /\.(png|jpe?g|svg)$/)
+  require.context("../assets/pictures", false, /\.(png|jpe?g|svg)$/)
 );
 
 const MainCarousel = () => {

@@ -69,6 +69,10 @@ export const theme = createTheme({
       fontFamily: ["Quantico", "sans-serif"].join(","),
       fontSize: 16,
     },
+    pcard: {
+      fontFamily: ["Quantico", "sans-serif"].join(","),
+      fontSize: '5px',
+    },
   },
 });
 

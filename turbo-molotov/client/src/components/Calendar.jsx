@@ -9,17 +9,18 @@ export default function ViewsDatePicker() {
   const [value, setValue] = React.useState(dayjs('2022-04-07'));
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} >
 
 
         <DatePicker
-          views={['day']}
-          label="Just date"
+          views={['year', 'month', 'day']}
+          label="Date de naissance"
           value={value}
+          inputFormat="YYYY-MM-DD"
           onChange={(newValue) => {
             setValue(newValue);
           }}
-          renderInput={(params) => <TextField {...params} helperText={null} />}
+          renderInput={(params) => <TextField name="dateNaissance" {...params} id="dateNaissance" helperText={null} />}
         />
 
     </LocalizationProvider>

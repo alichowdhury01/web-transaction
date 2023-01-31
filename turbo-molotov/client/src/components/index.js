@@ -1,9 +1,15 @@
-import ButtonGender from "./ButtonGender";
+
 import Calendar from "./Calendar";
 import SearchBar from "./SearchBar";
+import SideCard from "./SideCard";
+import MainCarousel from "./MainCarousel";
+import ItemCard from "./ItemCard";
 
 export {
-    ButtonGender, 
+
     Calendar, 
-    SearchBar 
+    SearchBar,
+    SideCard,
+    MainCarousel,
+    ItemCard
 };

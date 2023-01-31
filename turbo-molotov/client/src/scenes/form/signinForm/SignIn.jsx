@@ -12,13 +12,23 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+    try {
+      const response = await fetch('http://localhost/Session%204/Projet-Web-Trans/Projet-Web-Trans/turbo-molotov/server/membre/connexion.php', {
+          method: 'POST',
+          body: data
+      });
+      const result = await response.json();
+      console.log("fetch results: " + result);
+  } catch (error) {
+      console.error(error);
+  }
   };
 
   return (
@@ -34,7 +44,7 @@ export default function SignIn() {
           }}
         >
 
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
