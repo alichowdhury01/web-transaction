@@ -4,11 +4,11 @@ USE bdboutique;
 
 CREATE TABLE IF NOT EXISTS membres (
     id INT NOT NULL AUTO_INCREMENT,
-    nom VARCHAR(30),
-    prenom VARCHAR(30),
-    courriel VARCHAR(80) UNIQUE,
-    sexe VARCHAR(10),
-    dateNaissance DATE,
+    nom VARCHAR(30) NOT NULL,
+    prenom VARCHAR(30) NOT NULL,
+    courriel VARCHAR(80) UNIQUE NOT NULL,
+    sexe VARCHAR(10) NOT NULL,
+    dateNaissance DATE NOT NULL,
     PRIMARY KEY(id)
 );
 
