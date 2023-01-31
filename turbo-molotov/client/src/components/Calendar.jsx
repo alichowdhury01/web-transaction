@@ -13,6 +13,7 @@ export default function ViewsDatePicker() {
 
 
         <DatePicker
+        required
           views={['year', 'month', 'day']}
           label="Date de naissance"
           value={value}

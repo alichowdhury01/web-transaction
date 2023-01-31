@@ -17,6 +17,7 @@ export default function ButtonGender() {
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Sexe</InputLabel>
         <Select
+        required
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={sexe}
