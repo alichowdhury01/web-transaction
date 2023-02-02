@@ -16,7 +16,7 @@
                     session_start();
                     echo("Vous etes connecté!");
                     header("Location: http://localhost:3000/membre");
-                }else if($row['role'] === "M"){
+                }else if($row['role'] === "A"){
                     echo("Vous etes connecté!");
                     session_start();
                     header("Location: http://localhost:3000/admin");

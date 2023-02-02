@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import {  Navbar2, Home, Magasiner, SignIn, SignUp, Connexion, Membre} from "./scenes/index";
+import {  Navbar2, Home, Magasiner, SignIn, SignUp, Connexion, Membre, ContactUs} from "./scenes/index";
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -22,6 +22,7 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/signin" element={<Connexion />}/>
           <Route path="/membre" element={<Membre />}/>
+          <Route path="/contact" element={<ContactUs />}/>
         </Routes>
       </BrowserRouter>
     </div>

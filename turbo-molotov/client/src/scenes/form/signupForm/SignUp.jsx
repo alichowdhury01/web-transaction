@@ -84,8 +84,8 @@ const SignUp = () => {
                         defaultValue="female"
                         name="radio-buttons-group"
                       >
-                        <FormControlLabel value="F" name="gender" control={<Radio />} label="Female" />
-                        <FormControlLabel value="M" name="gender" control={<Radio />} label="Male" />
+                        <FormControlLabel value="F" name="gender" control={<Radio required={true} />} label="Female" />
+                        <FormControlLabel value="M" name="gender" control={<Radio required={true} />} label="Male" />
                       </RadioGroup>
                   </Grid>
                   <Grid item xs={12} sm={6}>
