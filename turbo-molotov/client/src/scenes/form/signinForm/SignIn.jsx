@@ -68,7 +68,7 @@ export default function SignIn() {
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Souvenir de moi"
+              label = "Souvenir de moi"
             />
             <Button
               type="submit"
