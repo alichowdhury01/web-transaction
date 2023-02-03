@@ -14,16 +14,14 @@
             if($row['pass'] === $password){
                 if($row['role'] === "M"){
                     session_start();
-                    echo encode_json("msg" => "Vous etes connecté!");
+                    echo("Vous etes connecté!", session_id());
                     header("Location: http://localhost:3000/membre");
                 }else if($row['role'] === "A"){
-                    echo json_encode("msg" => "Vous etes connecté!");
+                    echo("Vous etes connecté!",session_id());
                     session_start();
                     header("Location: http://localhost:3000/admin");
                 }
                 
-            }else{
-                echo encode_json("msg" => "Mot de passe non-valide!");
             }
         }
         exit();
@@ -35,10 +33,12 @@
         $stmt = $connexion->prepare($requette);
         $stmt->execute();
         while ($row = $stmt->fetch()) {
-            if($row['courriel'] === $email){
-                validerMDP();
+            if($row['courriel'] === $email ){
+                validerMDP();echo json_encode("email valide");
             }
-            echo json_encode("msg" => "email non-valide réessayer de nouveaux \n");
+            else{
+                echo json_encode("email non-valide réessayer de nouveaux ");
+            }
         }
         unset($connexion); //Detruire la connexion		
     }
