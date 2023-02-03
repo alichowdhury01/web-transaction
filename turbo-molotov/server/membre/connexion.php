@@ -14,7 +14,7 @@
             if($row['pass'] === $password){
                 if($row['role'] === "M"){
                     session_start();
-                    $reponse = array("reponse" => "Vous etes connecté en temps que membre!", "session" => session_id());
+                    $reponse = array("status" => "OK", "reponse" => "Vous etes connecté en temps que membre!", "session" => session_id());
                     echo json_encode($reponse);
                     // header("Location: http://localhost:3000/membre");
                 }else if($row['role'] === "A"){

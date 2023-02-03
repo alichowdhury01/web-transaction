@@ -37,7 +37,7 @@
                 $stmt = $connexion->prepare($requette);
                 $stmt->execute([$id,$email, $password]);
                 
-                $msg = array("msg" => "Membre $email bien enregistre");
+                $msg = array("status" => "OK","msg" => "Membre $email bien enregistre");
                 echo json_encode($msg);
                 unset($connexion); //Detruire la connexion		
         }
