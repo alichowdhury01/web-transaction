@@ -25,7 +25,7 @@ export default function SignIn() {
           body: data
       });
       const result = await response.json();
-      console.log("fetch results: " + result);
+      console.log("fetch results: " + JSON.stringify(result));
   } catch (error) {
       console.error(error);
   }
