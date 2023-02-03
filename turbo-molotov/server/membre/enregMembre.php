@@ -22,8 +22,7 @@
         // }
 
         function executerRequette(){
-                global $connexion, $firstName, $lastName, $gender, $dateNaissance, $email
-                ,$password;/* , $nouveauNom*/ 
+                global $connexion, $firstName, $lastName, $gender, $dateNaissance, $email, $password;/* , $nouveauNom*/ 
                 $requette = "INSERT INTO membres VALUES(0, ?, ?, ?, ?, ?)";
                 $stmt = $connexion->prepare($requette);
                 $stmt->execute([$firstName, $lastName, $email, $gender, $dateNaissance]);
