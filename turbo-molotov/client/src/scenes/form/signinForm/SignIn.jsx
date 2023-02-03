@@ -24,7 +24,8 @@ export default function SignIn() {
       const result = await response.json();
       console.log("fetch results: " + JSON.stringify(result));
       if(result.status === "OK"){
-        console.log("redirect?")
+        localStorage.setItem('session', result.session);
+        console.log(localStorage.getItem("session"));
         redirect("/membre");
       };
   } catch (error) {
