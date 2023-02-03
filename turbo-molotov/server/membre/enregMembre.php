@@ -35,11 +35,13 @@
 
                 $requette = "INSERT INTO connexion  VALUES(?, ?, ?, 'M', 'A')";
                 $stmt = $connexion->prepare($requette);
-                $stmt->execute([$id,$email, $password]);        
-                echo json_encode("Membre $email bien enregistre");
+                $stmt->execute([$id,$email, $password]);
+                
+                $msg = array("status" => "OK","msg" => "Membre $email bien enregistre");
+                echo json_encode($msg);
                 unset($connexion); //Detruire la connexion		
         }
         executerRequette();
-        header("Location: http://localhost:3000");
+        // header("Location : localhost:3000");
         exit();
         ?>

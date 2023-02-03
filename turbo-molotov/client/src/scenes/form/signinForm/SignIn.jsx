@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { redirect } from "react-router-dom";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -15,17 +16,17 @@ export default function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
     try {
       const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/connexion.php', {
           method: 'POST',
           body: data
       });
-      const result = await response.text();
-      console.log("fetch results: " + result);
+      const result = await response.json();
+      console.log("fetch results: " + JSON.stringify(result));
+      if(result.status === "OK"){
+        console.log("redirect?")
+        redirect("/membre");
+      };
   } catch (error) {
       console.error(error);
   }
@@ -44,7 +45,7 @@ export default function SignIn() {
           }}
         >
 
-          <Box component="form" noValidate={false} onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
