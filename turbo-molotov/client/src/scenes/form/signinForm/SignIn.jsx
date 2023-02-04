@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -25,8 +26,9 @@ export default function SignIn() {
       console.log("fetch results: " + JSON.stringify(result));
       if(result.status === "OK"){
         localStorage.setItem('session', result.session);
+        localStorage.setItem('role', result.role);
         console.log(localStorage.getItem("session"));
-        redirect("/membre");
+        navigate("/membre");
       };
   } catch (error) {
       console.error(error);
