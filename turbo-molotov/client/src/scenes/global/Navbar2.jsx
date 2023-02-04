@@ -13,7 +13,7 @@ export const Navbar2 = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
     
-  return (
+return (
     <Box
     display="flex"
     flexDirection="column"
