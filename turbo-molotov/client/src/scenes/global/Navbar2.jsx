@@ -28,7 +28,7 @@ export const Navbar2 = () => {
                     Connexion
                 </Typography>
             </Button>
-            <Button onclick= {deconnexion()}>
+            <Button onClick= {deconnexion()}>
                 <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
                     Déconnexion
                 </Typography>
