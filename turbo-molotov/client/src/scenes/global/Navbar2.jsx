@@ -13,7 +13,7 @@ export const Navbar2 = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
     
-  return (
+return (
     <Box
     display="flex"
     flexDirection="column"
@@ -28,7 +28,7 @@ export const Navbar2 = () => {
                     Connexion
                 </Typography>
             </Button>
-            <Button onclick= {deconnexion()}>
+            <Button onClick= {deconnexion()}>
                 <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
                     Déconnexion
                 </Typography>
