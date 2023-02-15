@@ -1,38 +1,48 @@
-import React from "react";
+import React, {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Badge, Box, Button, IconButton, Typography, ThemeProvider } from "@mui/material";
+import { Badge, Box, Button, IconButton, Typography } from "@mui/material";
 import { SearchBar } from "../../components";
 import { PersonOutline, ShoppingBagOutlined } from "@mui/icons-material";
-import { useNavigate, Link } from "react-router-dom";
-import { shades, theme } from "../../theme";
+import { Link } from "react-router-dom";
+import { shades } from "../../theme";
 import { setIsCartOpen } from "../../state";
 import deconnexion from "./deconnexion";
 
 export const Navbar2 = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    if(localStorage.getItem("session") !== null){
+        deconnexion();
+        setIsLoggedIn(false);
+    }
+
+  };
     
 return (
-    <Box
-    display="flex"
-    flexDirection="column"
-    justifyContent="center"
-    width="100%"
-    margin="auto"
-    backgroundColor={shades.primary[600]}>
+    <Box display="flex" flexDirection="column" justifyContent="center" width="100%" margin="auto" backgroundColor={shades.primary[600]}>
         {/*Upper nav */}
-        <Box display="flex"flexDirection="row-reverse" float="right" width={"65%"} margin="auto">
-            <Button>
+        <Box display="flex"flexDirection="row-reverse" float="right" width={"65%"} margin="auto" >
+            {!isLoggedIn && (
+            <Button onClick={handleLogin}>
                 <Typography component={Link} to={"/signin"} sx={{color:"#fff", textDecoration:"none"}}>
                     Connexion
                 </Typography>
             </Button>
-            <Button onClick= {deconnexion()}>
+            )}
+            {isLoggedIn && (
+            <Button onClick= {handleLogout}>
                 <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
                     Déconnexion
                 </Typography>
             </Button>
+            )}
         </Box>
         {/*Middle nav */}
         <Box display ="flex" flexDirection="row" width="65%" height="80px" margin="auto" justifyContent="space-between" alignItems="center">
@@ -43,7 +53,6 @@ return (
                     </Typography>
                 </Button>
             </Box>
-            
             <Box margin="auto">
                 <SearchBar />
             </Box>
@@ -51,7 +60,7 @@ return (
                 <IconButton sx={{ color: "#fff" }} >
             <PersonOutline />
           </IconButton>
-          <Badge badgeContent={cart.length} color="secondary" invisible={cart.length === 0} sx={{"& .MuiBadge-badge": { right: 5, top: 5, padding: "0 4px", height: "14px", minWidth: "13px", },}}>
+          <Badge badgeContent={cart.length} invisible={cart.length === 0} sx={{"& .MuiBadge-badge": { right: 5, top: 5, padding: "0 4px", height: "14px", minWidth: "13px" }}}>
             <IconButton onClick={() => dispatch(setIsCartOpen({}))} sx={{ color: "#fff" }}>
               <ShoppingBagOutlined />
             </IconButton>
@@ -84,6 +93,5 @@ return (
             </Box>
         </Box>
     </Box>
-    
   )
 }
