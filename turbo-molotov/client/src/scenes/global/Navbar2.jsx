@@ -34,6 +34,7 @@ export const Navbar2 = () => {
         //refresh page to update navbar and cart icon badge count
         if (authenticated === true) {
             window.location.reload();
+            navigate("/membre");
         }
     }
   }, []);
@@ -48,11 +49,18 @@ return (
         {/*Upper nav */}
         <Box display="flex"flexDirection="row-reverse" float="right" width={"65%"} margin="auto">
             {authenticated ? (
-            <Button onClick= {handleLogout}>
+            <>
+            <Button onClick={handleLogout}>
                 <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
                     Déconnexion
                 </Typography>
             </Button> 
+            <Button>
+                <Typography component={Link} to={"/membre"} sx={{color:"#fff", textDecoration:"none"}}>
+                    Mon compte
+                </Typography>
+            </Button>
+            </>
             ) : ( 
             <Button>
                 <Typography component={Link} to={"/signin"} sx={{color:"#fff", textDecoration:"none"}}>
