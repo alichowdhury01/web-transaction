@@ -30,11 +30,6 @@ export const Navbar2 = () => {
     const session = localStorage.getItem("session");
     if (session !== null) {
         setAuthenticated(true);
-        //refresh page to update navbar and cart icon badge count
-        if (authenticated === true) {
-            window.location.reload();
-            navigate("/membre");
-        }
     }
   }, []);
 return (
