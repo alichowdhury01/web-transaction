@@ -6,7 +6,6 @@ import { PersonOutline, ShoppingBagOutlined } from "@mui/icons-material";
 import { useNavigate, Link } from "react-router-dom";
 import { shades, theme } from "../../theme";
 import { setIsCartOpen } from "../../state";
-import deconnexion from "./deconnexion";
 
 export const Navbar2 = () => {
     const navigate = useNavigate();
