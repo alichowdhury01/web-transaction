@@ -34,7 +34,7 @@ export default function SignIn() {
         setAuthenticated(true);
         console.log(localStorage.getItem("session"));
         console.log(localStorage.getItem("role"));
-        navigate("/membre");
+        navigate("/"+result.page);
         window.location.reload();
       };
   } catch (error) {
