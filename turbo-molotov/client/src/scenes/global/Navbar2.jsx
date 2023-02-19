@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge, Box, Button, IconButton, Typography, ThemeProvider } from "@mui/material";
 import { SearchBar } from "../../components";
@@ -6,13 +6,37 @@ import { PersonOutline, ShoppingBagOutlined } from "@mui/icons-material";
 import { useNavigate, Link } from "react-router-dom";
 import { shades, theme } from "../../theme";
 import { setIsCartOpen } from "../../state";
-import deconnexion from "./deconnexion";
 
 export const Navbar2 = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.cart);
     
+      // state variable to keep track of user authentication
+  const [authenticated, setAuthenticated] = useState(false);
+
+  // function to handle logout
+  const handleLogout = () => {
+    // clear session storage and update authenticated state
+    localStorage.removeItem("session");
+    localStorage.removeItem("role");
+    setAuthenticated(false);
+    // navigate to home page
+    navigate("/");
+  };
+
+  // check if user is already authenticated on component mount
+  useEffect(() => {
+    const session = localStorage.getItem("session");
+    if (session !== null) {
+        setAuthenticated(true);
+        //refresh page to update navbar and cart icon badge count
+        if (authenticated === true) {
+            window.location.reload();
+            navigate("/membre");
+        }
+    }
+  }, []);
 return (
     <Box
     display="flex"
@@ -23,16 +47,26 @@ return (
     backgroundColor={shades.primary[600]}>
         {/*Upper nav */}
         <Box display="flex"flexDirection="row-reverse" float="right" width={"65%"} margin="auto">
+            {authenticated ? (
+            <>
+            <Button onClick={handleLogout}>
+                <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
+                    Déconnexion
+                </Typography>
+            </Button> 
+            <Button>
+                <Typography component={Link} to={"/membre"} sx={{color:"#fff", textDecoration:"none"}}>
+                    Mon compte
+                </Typography>
+            </Button>
+            </>
+            ) : ( 
             <Button>
                 <Typography component={Link} to={"/signin"} sx={{color:"#fff", textDecoration:"none"}}>
                     Connexion
                 </Typography>
             </Button>
-            <Button onClick= {deconnexion()}>
-                <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
-                    Déconnexion
-                </Typography>
-            </Button>
+            )}
         </Box>
         {/*Middle nav */}
         <Box display ="flex" flexDirection="row" width="65%" height="80px" margin="auto" justifyContent="space-between" alignItems="center">

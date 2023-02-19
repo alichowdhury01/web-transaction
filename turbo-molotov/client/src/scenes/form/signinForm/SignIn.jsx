@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +14,10 @@ const theme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [session, setSession] = useState(null);
+  const [role, setRole] = useState(null);
+  const [authenticated, setAuthenticated] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -27,8 +31,11 @@ export default function SignIn() {
       if(result.status === "OK"){
         localStorage.setItem('session', result.session);
         localStorage.setItem('role', result.role);
+        setAuthenticated(true);
         console.log(localStorage.getItem("session"));
+        console.log(localStorage.getItem("role"));
         navigate("/membre");
+        window.location.reload();
       };
   } catch (error) {
       console.error(error);
