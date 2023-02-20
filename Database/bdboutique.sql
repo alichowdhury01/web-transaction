@@ -31,10 +31,10 @@ CREATE TABLE `articles` (
   `id` int(10) NOT NULL,
   `nom` varchar(40) NOT NULL,
   `categorie` varchar(40) NOT NULL,
-  `description` varchar(512) NOT NULL,
+  `descriptions` varchar(512) NOT NULL,
   `prix` double NOT NULL,
   `quantiteInventaire` int(11) NOT NULL,
-  `image` varchar(256) NOT NULL
+  `images` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
