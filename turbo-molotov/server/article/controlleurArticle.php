@@ -140,12 +140,30 @@
         }
     }
 
-
-    //getAllArticleByCategorie();
-    //getAllArticle();
-    //getArticle();
-    //deleteArticle();
-    //updateArticle();
-    //createArticle();
+    $action = $_POST['action'];
+    switch($action){
+        case 'createArticle':
+            createArticle();
+            break;
+        case 'updateArticle':
+            updateArticle();
+            break;
+        case 'deleteArticle':
+            deleteArticle();
+            break;
+        case 'getArticle':
+            getArticle();
+            break;
+        case 'getAllArticle':
+            getAllArticle();
+            break;
+        case 'getAllArticleByCategorie':
+            getAllArticleByCategorie();
+            break;
+        default:
+            $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
+            echo json_encode($msg);
+            break;
+    }
 exit();
 ?>
