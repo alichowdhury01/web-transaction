@@ -9,23 +9,54 @@
         $prix = $_POST['prix'];
         $description = $_POST['description'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
-
         $repArticle = "../../client/src/assets/cardPicture/";
+
         try{
             if($_FILES['article']['tmp_name'] != ""){
                 $tmpFile = $_FILES['article']['tmp_name'];
-                $nomOriginal = $_FILES['avatars']['name'];
+                $nomOriginal = $_FILES['article']['name'];
                 $extension = strrchr($nomOriginal,'.');
                 $nouveauNom = sha1($nom.time()).$extension;
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
             }  
-            global $connexion, $categorie, $nom, $description, $prix, $quantiteInventaire, $repArticle, $nouveauNom;
+            global $connexion;
             $requette = "INSERT INTO articles VALUES(0, ?, ?, ?, ?, ?, ?)";
             $stmt = $connexion->prepare($requette);
             $stmt->execute([$categorie, $nom, $description, $prix, $quantiteInventaire, $repArticle.$nouveauNom]);
 
             $msg = array("status" => "OK","msg" => "Article $nom bien enregistre");
-            echo json_encode('ttes');
+            echo json_encode($msg['msg']);
+        }catch(PDOException $e){
+            $msg = array("status" => "KO","msg" => "Erreur d'enregistrement de l'article $nom");
+            echo json_encode($msg);
+        } finally {
+            unset($connexion); //Detruire la connexion
+        }      		
+    }
+
+    function updateArticle(){
+        $id = $_POST['id'];
+        $nom = $_POST['nom'];
+        $categorie = $_POST['categorie'];
+        $prix = $_POST['prix'];
+        $description = $_POST['description'];
+        $quantiteInventaire = $_POST['quantiteInventaire'];
+        $repArticle = "../../client/src/assets/cardPicture/";
+
+        try{
+            if($_FILES['article']['tmp_name'] != ""){
+                $tmpFile = $_FILES['article']['tmp_name'];
+                $nomOriginal = $_FILES['article']['name'];
+                $extension = strrchr($nomOriginal,'.');
+                $nouveauNom = sha1($nom.time()).$extension;
+                @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
+            }  
+            global $connexion;
+            $requette = "UPDATE articles SET categorie = ?, nom = ?, descriptions = ?, prix = ?, quantiteInventaire = ?, images = ? WHERE id = ?";
+            $stmt = $connexion->prepare($requette);
+            $stmt->execute([$categorie, $nom, $description, $prix, $quantiteInventaire, $repArticle.$nouveauNom, $id]);
+
+            $msg = array("status" => "OK","msg" => "Article $nom bien enregistre");
             echo json_encode($msg['msg']);
         }catch(PDOException $e){
             $msg = array("status" => "KO","msg" => "Erreur d'enregistrement de l'article $nom");
@@ -33,10 +64,88 @@
         } finally {
             unset($connexion); //Detruire la connexion
         }
-
-                		
     }
-        
-        // header("Location : localhost:3000");
+
+    function deleteArticle(){
+        $id = $_POST['id'];
+        try{
+            global $connexion;
+            $requette = "DELETE FROM articles WHERE id = ?";
+            $stmt = $connexion->prepare($requette);
+            $stmt->execute([$id]);
+
+            $msg = array("status" => "OK","msg" => "Article $id bien supprimé");
+            echo json_encode($msg['msg']);
+        }catch(PDOException $e){
+            $msg = array("status" => "KO","msg" => "Erreur de suppression de l'article $id");
+            echo json_encode($msg);
+        } finally {
+            unset($connexion); //Detruire la connexion
+        }
+    }
+
+    function getArticle(){
+        $id = $_POST['id'];
+        try{
+            global $connexion;
+            $requette = "SELECT * FROM articles WHERE id = ?";
+            $stmt = $connexion->prepare($requette);
+            $stmt->execute([$id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $msg = array("status" => "OK","msg" => $result);
+            echo json_encode($msg['msg']);
+        }catch(PDOException $e){
+            $msg = array("status" => "KO","msg" => "Erreur de recuperation de l'article $id");
+            echo json_encode($msg);
+        } finally {
+            unset($connexion); //Detruire la connexion
+        }
+    }
+
+    function getAllArticle(){
+        try{
+            global $connexion;
+            $requette = "SELECT * FROM articles";
+            $stmt = $connexion->prepare($requette);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $msg = array("status" => "OK","msg" => $result);
+            echo json_encode($msg['msg']);
+        }catch(PDOException $e){
+            $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
+            echo json_encode($msg);
+        } finally {
+            unset($connexion); //Detruire la connexion
+        }
+    }
+
+    function getAllArticleByCategorie(){
+        $categorie = $_POST['categorie'];
+        try{
+            global $connexion;
+            $requette = "SELECT * FROM articles WHERE categorie = ?";
+            $stmt = $connexion->prepare($requette);
+            $stmt->execute([$categorie]);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $msg = array("status" => "OK","msg" => $result);
+            echo json_encode($msg['msg']);
+        }catch(PDOException $e){
+            $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
+            echo json_encode($msg);
+        } finally {
+            unset($connexion); //Detruire la connexion
+        }
+    }
+
+
+    //getAllArticleByCategorie();
+    //getAllArticle();
+    //getArticle();
+    //deleteArticle();
+    //updateArticle();
+    //createArticle();
 exit();
 ?>
