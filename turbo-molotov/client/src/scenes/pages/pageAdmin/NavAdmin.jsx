@@ -30,6 +30,11 @@ export const Navbar2 = () => {
     const session = localStorage.getItem("session");
     if (session !== null) {
         setAuthenticated(true);
+        //refresh page to update navbar and cart icon badge count
+        if (authenticated === true) {
+            window.location.reload();
+            navigate("/membre");
+        }
     }
   }, []);
 return (
@@ -96,13 +101,13 @@ return (
                     </Typography>
                 </Button>
                 <Button >
-                    <Typography component={Link} to={"/produits"} sx={{color:"#fff", textDecoration:"none"}}>
-                        Produits
+                    <Typography component={Link} to={"/gestproduits"} sx={{color:"#fff", textDecoration:"none"}}>
+                        Gestion produits
                     </Typography>
                 </Button>
                 <Button >
-                    <Typography component={Link} to={"/propos"} sx={{color:"#fff", textDecoration:"none"}}>
-                        À propos
+                    <Typography component={Link} to={"/gestmembres"} sx={{color:"#fff", textDecoration:"none"}}>
+                        Gestion membres
                     </Typography>
                 </Button>
                 <Button >
