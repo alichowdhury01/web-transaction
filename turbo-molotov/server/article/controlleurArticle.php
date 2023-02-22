@@ -12,9 +12,9 @@
         $repArticle = "../../client/src/assets/cardPicture/";
 
         try{
-            if($_FILES['article']['tmp_name'] != ""){
-                $tmpFile = $_FILES['article']['tmp_name'];
-                $nomOriginal = $_FILES['article']['name'];
+            if($_FILES['image']['tmp_name'] != ""){
+                $tmpFile = $_FILES['image']['tmp_name'];
+                $nomOriginal = $_FILES['image']['name'];
                 $extension = strrchr($nomOriginal,'.');
                 $nouveauNom = sha1($nom.time()).$extension;
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
@@ -22,7 +22,7 @@
             global $connexion;
             $requette = "INSERT INTO articles VALUES(0, ?, ?, ?, ?, ?, ?)";
             $stmt = $connexion->prepare($requette);
-            $stmt->execute([$categorie, $nom, $description, $prix, $quantiteInventaire, $repArticle.$nouveauNom]);
+            $stmt->execute([$nom, $categorie, $description, $prix, $quantiteInventaire, $repArticle.$nouveauNom]);
 
             $msg = array("status" => "OK","msg" => "Article $nom bien enregistre");
             echo json_encode($msg['msg']);
@@ -44,9 +44,9 @@
         $repArticle = "../../client/src/assets/cardPicture/";
 
         try{
-            if($_FILES['article']['tmp_name'] != ""){
-                $tmpFile = $_FILES['article']['tmp_name'];
-                $nomOriginal = $_FILES['article']['name'];
+            if($_FILES['image']['tmp_name'] != ""){
+                $tmpFile = $_FILES['image']['tmp_name'];
+                $nomOriginal = $_FILES['image']['name'];
                 $extension = strrchr($nomOriginal,'.');
                 $nouveauNom = sha1($nom.time()).$extension;
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
