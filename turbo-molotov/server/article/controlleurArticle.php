@@ -9,7 +9,7 @@
         $prix = $_POST['prix'];
         $description = $_POST['description'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
-        $repArticle = "../../client/src/assets/cardPicture/";
+        $repArticle = "../database/images/";
 
         try{
             if($_FILES['image']['tmp_name'] != ""){
