@@ -111,8 +111,8 @@
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $msg = array("status" => "OK","msg" => $result);
-            echo json_encode($msg['msg']);
+            $msg = array("status" => "OK","data" => $result);
+            echo json_encode($msg);
         }catch(PDOException $e){
             $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
             echo json_encode($msg);
