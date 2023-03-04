@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}/>
           <Route path="/signin" element={<Connexion />}/>
-          <Route path={routePath} element={elementPath}/>
+          <Route path="/admin" element={<Admin />}/>
           <Route path="/contact" element={<ContactUs />}/>
         </Routes>
       </BrowserRouter>
