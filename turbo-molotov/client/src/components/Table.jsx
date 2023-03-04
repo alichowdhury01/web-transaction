@@ -37,7 +37,7 @@ const requeteGetAllArticle = async() => {
             let resultSet = [];
             // console.log(result.data[0])
             for(let obj of result.data) {
-                resultSet += obj;
+                resultSet.push(obj);
                 console.log(obj);
             }
             console.log(resultSet);
@@ -48,20 +48,19 @@ const requeteGetAllArticle = async() => {
         }
     }
     
-    function createData(id, image, titre, categ, desc, prix, quantite, date) {
+    function createData(id, images, nom, categorie, descriptions, prix, quantiteInventaire) {
       return {
         id,
-        image,
-        titre,
-        categ,
-        desc,
+        images,
+        nom,
+        categorie,
+        descriptions,
         prix,
-        quantite,
-        date
+        quantiteInventaire
       };
     }
-
-    const liste = requeteGetAllArticle();
+    
+    //const rows = [requeteGetAllArticle()];
 
     const rows = [
         createData('Cupcake', 305, 3.7, 67, 4.3),
@@ -153,12 +152,6 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: 'Quantité',
-  },
-  {
-    id: 'date',
-    numeric: true,
-    disablePadding: false,
-    label: 'Date d\'ajout',
   },
 ];
 
@@ -340,13 +333,12 @@ export default function EnhancedTable() {
                       selected={isItemSelected}
                     >
                       <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="right">{row.image}</TableCell>
-                      <TableCell align="right">{row.titre}</TableCell>
-                      <TableCell align="right">{row.catégorie}</TableCell>
-                      <TableCell align="right">{row.desc}</TableCell>
+                      <TableCell align="right">{row.images}</TableCell>
+                      <TableCell align="right">{row.nom}</TableCell>
+                      <TableCell align="right">{row.categorie}</TableCell>
+                      <TableCell align="right">{row.descriptions}</TableCell>
                       <TableCell align="right">{row.prix}</TableCell>
-                      <TableCell align="right">{row.quantite}</TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">{row.quantiteInventaire}</TableCell>
                     </TableRow>
                   );
                 })}
