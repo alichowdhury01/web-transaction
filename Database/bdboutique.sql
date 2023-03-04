@@ -27,6 +27,8 @@ SET time_zone = "+00:00";
 -- Structure de la table `articles`
 --
 
+USE bdboutique;
+
 CREATE TABLE `articles` (
   `id` int(10) NOT NULL,
   `nom` varchar(40) NOT NULL,
