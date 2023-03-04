@@ -13,6 +13,7 @@ const ScrollToTop = () => {
 
   return null;
 };
+
 //à determiner le où et comment faire pour que le path soit dynamique 
 if (localStorage.getItem('role') === "M") { 
   routePath = "/"+localStorage.getItem('session'); 
