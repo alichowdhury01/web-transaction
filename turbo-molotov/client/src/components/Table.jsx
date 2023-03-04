@@ -22,14 +22,46 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
-function createData(name, calories, fat, carbs, protein) {
+function createData(id, image, titre, catégorie, desc, prix, quantite, date) {
   return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    id,
+    image,
+    titre,
+    catégorie,
+    desc,
+    prix,
+    quantite,
+    date
   };
+}
+
+const peuplerTable = async() => {
+    let data = new FormData('action', 'lister');
+    try {
+        const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
+            method: 'POST',
+            body: data
+        });
+        const result = await response.json();
+        console.log("fetch results: " + JSON.stringify(result));
+        if(result.status === "OK"){
+            for(let article of result) {
+                createData(
+                    article.id,
+                    article.image,
+                    article.titre,
+                    article.catégorie,
+                    article.desc,
+                    article.prix,
+                    article.quantite,
+                    article.date
+                    )
+            }
+          window.location.reload();
+        };
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 const rows = [
@@ -82,34 +114,52 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: 'name',
+    id: 'id',
     numeric: false,
-    disablePadding: true,
-    label: 'Dessert (100g serving)',
+    disablePadding: false,
+    label: 'ID Articles',
   },
   {
-    id: 'calories',
+    id: 'image',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: 'Image',
   },
   {
-    id: 'fat',
+    id: 'titre',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'Titre',
   },
   {
-    id: 'carbs',
+    id: 'categ',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Catégorie',
   },
   {
-    id: 'protein',
+    id: 'desc',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Description',
+  },
+  {
+    id: 'prix',
+    numeric: true,
+    disablePadding: false,
+    label: 'Prix',
+  },
+  {
+    id: 'quant',
+    numeric: true,
+    disablePadding: false,
+    label: 'Quantité',
+  },
+  {
+    id: 'date',
+    numeric: true,
+    disablePadding: false,
+    label: 'Date d\'ajout',
   },
 ];
 
@@ -123,22 +173,11 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            padding={headCell.disablePadding ? 'normal' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -183,39 +222,19 @@ function EnhancedTableToolbar(props) {
         }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
         <Typography
           sx={{ flex: '1 1 100%' }}
           variant="h6"
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Arcicles
         </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
         <Tooltip title="Filter list">
           <IconButton>
             <FilterListIcon />
           </IconButton>
         </Tooltip>
-      )}
     </Toolbar>
   );
 }
@@ -287,7 +306,7 @@ export default function EnhancedTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%'}}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -314,34 +333,21 @@ export default function EnhancedTable() {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.id}</TableCell>
+                      <TableCell align="right">{row.image}</TableCell>
+                      <TableCell align="right">{row.titre}</TableCell>
+                      <TableCell align="right">{row.catégorie}</TableCell>
+                      <TableCell align="right">{row.desc}</TableCell>
+                      <TableCell align="right">{row.prix}</TableCell>
+                      <TableCell align="right">{row.quantite}</TableCell>
+                      <TableCell align="right">{row.date}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -351,7 +357,7 @@ export default function EnhancedTable() {
                     height: (dense ? 33 : 53) * emptyRows,
                   }}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={8} />
                 </TableRow>
               )}
             </TableBody>
