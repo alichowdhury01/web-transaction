@@ -13,70 +13,15 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-
-
-const requeteGetAllArticle = async() => {
-    let data = new FormData();
-    data.append('action', 'getAllArticle');
-    try {
-        const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
-            method: 'POST',
-            body: data
-        });
-        const result = await response.json();
-        //console.log("fetch results: " + JSON.stringify(result));
-        if(result.status === "OK"){
-            let resultSet = [];
-            // console.log(result.data[0])
-            for(let obj of result.data) {
-                resultSet.push(obj);
-                console.log(obj);
-            }
-            console.log(resultSet);
-            return resultSet;
-            };
-        } catch (error) {
-            console.error(error);
-        }
-    }
-    
-    function createData(id, images, nom, categorie, descriptions, prix, quantiteInventaire) {
-      return {
-        id,
-        images,
-        nom,
-        categorie,
-        descriptions,
-        prix,
-        quantiteInventaire
-      };
-    }
-    
-    //const rows = [requeteGetAllArticle()];
-
-    const rows = [
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Donut', 452, 25.0, 51, 4.9),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-        createData('Honeycomb', 408, 3.2, 87, 6.5),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Jelly Bean', 375, 0.0, 94, 0.0),
-        createData('KitKat', 518, 26.0, 65, 7.0),
-        createData('Lollipop', 392, 0.2, 98, 0.0),
-        createData('Marshmallow', 318, 0, 81, 2.0),
-        createData('Nougat', 360, 19.0, 9, 37.0),
-        createData('Oreo', 437, 18.0, 63, 4.0),
-      ];
+import { Button } from '@mui/material';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -153,6 +98,18 @@ const headCells = [
     disablePadding: false,
     label: 'Quantité',
   },
+  {
+    id: 'modifer',
+    numeric: true,
+    disablePadding: false,
+    label: 'Modifer',
+  },
+  {
+    id: 'supprimer',
+    numeric: true,
+    disablePadding: false,
+    label: 'Supprimer',
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -185,6 +142,7 @@ function EnhancedTableHead(props) {
               ) : null}
             </TableSortLabel>
           </TableCell>
+          
         ))}
       </TableRow>
     </TableHead>
@@ -220,8 +178,10 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Arcicles
+          Articles
         </Typography>
+        <Button>Lister</Button>
+        <Button>Ajouter</Button>
         <Tooltip title="Filter list">
           <IconButton>
             <FilterListIcon />
@@ -242,6 +202,42 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const [rows, setRows] = React.useState([]);
+
+  const requeteGetAllArticle = async() => {
+      let data = new FormData();
+      data.append('action', 'getAllArticle');
+      try {
+          const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
+              method: 'POST',
+              body: data
+          });
+          const result = await response.json();
+          //console.log("fetch results: " + JSON.stringify(result));
+          if(result.status === "OK"){
+              let resultSet = [];
+              for(let obj of result.data) {
+                  resultSet.push(obj);
+              }
+              return resultSet;
+              };
+          } catch (error) {
+              console.error(error);
+          }
+      }
+      
+      React.useEffect(() => {
+          const fetchData = async () => {
+              try {
+                  const result = await requeteGetAllArticle();
+                  setRows(result);
+              } catch (error) {
+                  console.error(error);
+              }
+          };
+          fetchData();
+      }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -320,7 +316,6 @@ export default function EnhancedTable() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
@@ -333,12 +328,24 @@ export default function EnhancedTable() {
                       selected={isItemSelected}
                     >
                       <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="right">{row.images}</TableCell>
+                      <TableCell align="right">
+                        <img
+                        src= {'../../../server/database/'+row.images}
+                        width={60}
+                        alt='game cover'
+                        ></img>
+                    </TableCell>
                       <TableCell align="right">{row.nom}</TableCell>
                       <TableCell align="right">{row.categorie}</TableCell>
                       <TableCell align="right">{row.descriptions}</TableCell>
-                      <TableCell align="right">{row.prix}</TableCell>
+                      <TableCell align="right">{row.prix+"$"}</TableCell>
                       <TableCell align="right">{row.quantiteInventaire}</TableCell>
+                      <TableCell align="right">
+                        <Button sx={{backgroundColor: '#f1c232'}}><AutoFixHighIcon />Modifier</Button>
+                    </TableCell>
+                      <TableCell align="right">
+                        <Button sx={{backgroundColor: '#ed8302'}}><DeleteIcon />Supprimer</Button>
+                    </TableCell>
                     </TableRow>
                   );
                 })}
