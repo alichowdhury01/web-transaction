@@ -21,7 +21,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { Button } from '@mui/material';
+import { Button, Backdrop, Modal, Fade, TextField, Input } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -39,10 +42,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -55,6 +54,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+
 const headCells = [
   {
     id: 'id',
@@ -63,25 +63,25 @@ const headCells = [
     label: 'ID Articles',
   },
   {
-    id: 'image',
+    id: 'images',
     numeric: true,
     disablePadding: false,
     label: 'Image',
   },
   {
-    id: 'titre',
+    id: 'nom',
     numeric: true,
     disablePadding: false,
-    label: 'Titre',
+    label: 'Nom',
   },
   {
-    id: 'categ',
+    id: 'categorie',
     numeric: true,
     disablePadding: false,
     label: 'Catégorie',
   },
   {
-    id: 'desc',
+    id: 'descriptions',
     numeric: true,
     disablePadding: false,
     label: 'Description',
@@ -93,22 +93,22 @@ const headCells = [
     label: 'Prix',
   },
   {
-    id: 'quant',
+    id: 'quantiteInventaire',
     numeric: true,
     disablePadding: false,
     label: 'Quantité',
   },
   {
-    id: 'modifer',
+    id: 'modifier',
     numeric: true,
     disablePadding: false,
-    label: 'Modifer',
+    
   },
   {
     id: 'supprimer',
     numeric: true,
     disablePadding: false,
-    label: 'Supprimer',
+    
   },
 ];
 
@@ -160,6 +160,30 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
+  
+const ajoutArticle = async() => {
+  let data = new FormData();
+  data.append('action', 'createArticle');
+  data.append('nom', document.getElementById('inputNom').value);
+  data.append('categorie', document.getElementById('inputCategorie').value);
+  data.append('descriptions', document.getElementById('inputDescriptions').value);
+  data.append('prix', document.getElementById('inputPrix').value);
+  data.append('images', document.getElementById('inputImage').files[0]);
+  try {
+      const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
+          method: 'POST',
+          body: data
+      });
+      const json = await response.json();
+      console.log(json);
+  } catch (error) {
+      console.log(error);
+  }
+}
 
   return (
     <Toolbar
@@ -181,7 +205,68 @@ function EnhancedTableToolbar(props) {
           Articles
         </Typography>
         <Button>Lister</Button>
-        <Button>Ajouter</Button>
+        <Button onClick={handleOpen}>Ajouter</Button>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          slots={{ backdrop: Backdrop }}
+          slotProps={{
+            backdrop: {
+              timeout: 500,
+            },
+          }}
+      >
+        <Fade in={open}>
+          <Box sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            height: '60vh',
+            minWidth: '40vw',
+            maxWidth: '80vw',
+            bgcolor: 'background.paper',
+            boxShadow: 24,        
+            }}>
+      
+          <Box bgcolor="#ffffff" width="50%" marginLeft='auto' marginRight='auto'>
+            <Box 
+              border="1px solid blue" 
+              bgcolor="#386fbbb3" 
+              boxShadow="inset 0 1px 0 rgb(255 255 255 / 27%), 0 0 12px 1px rgb(37 146 238 / 80%)"  
+              width="260px" 
+              height="50px" 
+              margin="auto" 
+               sx={{transform:"translateY(-50%)", 
+               textShadow:"0 0 9px #4eb0f0, 0 0 9px #4eb0f0, 0 0 9px #4eb0f0, 0 0 9px #4eb0f0"}} 
+               display="flex" 
+               justifyContent="center">
+                <Typography variant="h3" sx={{color:"#fff", textDecoration:"none", margin:"auto", paddingLeft:"10px", paddingRight:"10px"}}>
+                  AJOUT ARTICLE
+                </Typography>
+              </Box>
+              <Box>
+                <Box sx={{display:"flex", flexDirection:"column", marginTop:"20px"}}>
+                <ThemeProvider theme={theme}>
+                  <TextField id="inputNom" label="Nom" variant="outlined" sx={{color:'primary'}} />
+                  <TextField id="inputCategorie" label="Catégorie" variant="outlined" sx={{marginTop:"15px"}} />
+                  <TextField id="inputDescription" label="Descriptions" variant="outlined" sx={{marginTop:"15px"}} />
+                  <TextField id="inputPrix" label="Prix" variant="outlined" sx={{marginTop:"15px"}}/>
+                  <TextField id="inputQuantite" label="Quantité" variant="outlined" sx={{marginTop:"15px"}}/>
+                  <Input id="inputImage"  variant="outlined"  type="file" sx={{marginTop:"15px"}} />
+                  
+                  <Button onClick={ajoutArticle} variant="contained" sx={{marginTop:"15px", backgroundColor:"#386fbb", color:"#fff"}}>Ajouter</Button>
+                </ThemeProvider>
+                </Box>
+              
+              </Box>
+            </Box>
+          </Box> 
+        </Fade>
+      </Modal>
         <Tooltip title="Filter list">
           <IconButton>
             <FilterListIcon />
@@ -205,6 +290,26 @@ export default function EnhancedTable() {
 
   const [rows, setRows] = React.useState([]);
 
+  const requeteUpdateArticle = async(id, nom, categorie, descriptions, prix, quantiteInventaire) => {
+    let data = new FormData();
+    data.append('action', 'updateArticle');
+    data.append('id', id);
+    data.append('nom', nom);
+    data.append('categorie', categorie);
+    data.append('descriptions', descriptions);
+    data.append('prix', prix);
+    data.append('quantiteInventaire', quantiteInventaire);
+    try {
+        const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
+            method: 'POST',
+            body: data,
+        });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
   const requeteGetAllArticle = async() => {
       let data = new FormData();
       data.append('action', 'getAllArticle');
@@ -226,6 +331,25 @@ export default function EnhancedTable() {
               console.error(error);
           }
       }
+
+      const requeteDeleteArticle = async(id) => {
+          let data = new FormData();
+          data.append('action', 'deleteArticle');
+          data.append('id', id);
+          try {
+              const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
+                  method: 'POST',
+                  body: data
+              });
+              window.location.reload();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+
+
+
       
       React.useEffect(() => {
           const fetchData = async () => {
@@ -328,23 +452,25 @@ export default function EnhancedTable() {
                       selected={isItemSelected}
                     >
                       <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="right">
+                      <TableCell id='images' contentEditable='true'  align="right">
                         <img
                         src= {'../../../server/database/'+row.images}
                         width={60}
                         alt='game cover'
                         ></img>
                     </TableCell>
-                      <TableCell align="right">{row.nom}</TableCell>
-                      <TableCell align="right">{row.categorie}</TableCell>
-                      <TableCell align="right">{row.descriptions}</TableCell>
-                      <TableCell align="right">{row.prix+"$"}</TableCell>
-                      <TableCell align="right">{row.quantiteInventaire}</TableCell>
+                      <TableCell id='nom' contentEditable='true' align="right">{row.nom}</TableCell>
+                      <TableCell id='categorie' contentEditable='true' align="right">{row.categorie}</TableCell>
+                      <TableCell id='descriptions' contentEditable='true' align="right">{row.descriptions}</TableCell>
+                      <TableCell id='prix' contentEditable='true' align="right">{row.prix+"$"}</TableCell>
+                      <TableCell id='quantiteInventaire' contentEditable='true' align="right">{row.quantiteInventaire}</TableCell>
                       <TableCell align="right">
-                        <Button sx={{backgroundColor: '#f1c232'}}><AutoFixHighIcon />Modifier</Button>
+                        <Button onClick={requeteUpdateArticle} sx={{backgroundColor: '#f1c232'}}><AutoFixHighIcon />Modifier</Button>
                     </TableCell>
                       <TableCell align="right">
-                        <Button sx={{backgroundColor: '#ed8302'}}><DeleteIcon />Supprimer</Button>
+                        <Button onClick={() => {requeteDeleteArticle(row.id)}}
+
+                         sx={{backgroundColor: '#ed8302'}}><DeleteIcon />Supprimer</Button>
                     </TableCell>
                     </TableRow>
                   );
