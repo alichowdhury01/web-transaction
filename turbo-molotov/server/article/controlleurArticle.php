@@ -52,9 +52,9 @@
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
             }  
             global $connexion;
-            $requette = "UPDATE articles SET categorie = ?, nom = ?, descriptions = ?, prix = ?, quantiteInventaire = ?, images = ? WHERE id = ?";
+            $requette = "UPDATE articles SET , nom = ?, categorie = ? descriptions = ?, prix = ?, quantiteInventaire = ?, images = ? WHERE id = ?";
             $stmt = $connexion->prepare($requette);
-            $stmt->execute([$categorie, $nom, $description, $prix, $quantiteInventaire, $repArticle.$nouveauNom, $id]);
+            $stmt->execute([ $nom, $categorie, $description, $prix, $quantiteInventaire, $repArticle.$nouveauNom, $id]);
 
             $msg = array("status" => "OK","msg" => "Article $nom bien enregistre");
             echo json_encode($msg['msg']);
