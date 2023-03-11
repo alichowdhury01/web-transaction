@@ -82,7 +82,7 @@ const headCells = [
   },
   {
     id: 'descriptions',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'Description',
   },
@@ -170,15 +170,16 @@ const ajoutArticle = async() => {
   data.append('action', 'createArticle');
   data.append('nom', document.getElementById('inputNom').value);
   data.append('categorie', document.getElementById('inputCategorie').value);
-  data.append('descriptions', document.getElementById('inputDescriptions').value);
+  data.append('description', document.getElementById('inputDescriptions').value);
   data.append('prix', document.getElementById('inputPrix').value);
-  data.append('images', document.getElementById('inputImage').files[0]);
+  data.append('quantiteInventaire', document.getElementById('inputQuantiteInventaire').value);
+  data.append('images', document.getElementById('inputImages').value);
   try {
       const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
           method: 'POST',
           body: data
       });
-      const json = await response.json();
+      const json = await response.text();
       console.log(json);
   } catch (error) {
       console.log(error);
@@ -253,11 +254,10 @@ const ajoutArticle = async() => {
                 <ThemeProvider theme={theme}>
                   <TextField id="inputNom" label="Nom" variant="outlined" sx={{color:'primary'}} />
                   <TextField id="inputCategorie" label="Catégorie" variant="outlined" sx={{marginTop:"15px"}} />
-                  <TextField id="inputDescription" label="Descriptions" variant="outlined" sx={{marginTop:"15px"}} />
+                  <TextField id="inputDescriptions" label="Descriptions" variant="outlined" sx={{marginTop:"15px"}} />
                   <TextField id="inputPrix" label="Prix" variant="outlined" sx={{marginTop:"15px"}}/>
-                  <TextField id="inputQuantite" label="Quantité" variant="outlined" sx={{marginTop:"15px"}}/>
-                  <Input id="inputImage"  variant="outlined"  type="file" sx={{marginTop:"15px"}} />
-                  
+                  <TextField id="inputQuantiteInventaire" label="Quantité" variant="outlined" sx={{marginTop:"15px"}}/>
+                  <Input id="inputImages"  variant="outlined"  type="file" sx={{marginTop:"15px"}} />
                   <Button onClick={ajoutArticle} variant="contained" sx={{marginTop:"15px", backgroundColor:"#386fbb", color:"#fff"}}>Ajouter</Button>
                 </ThemeProvider>
                 </Box>
