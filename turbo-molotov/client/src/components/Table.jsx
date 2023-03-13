@@ -166,14 +166,9 @@ function EnhancedTableToolbar(props) {
   
   
 const ajoutArticle = async() => {
-  let data = new FormData();
+  let formAjout = document.getElementById("formAjout");
+  let data = new FormData(formAjout);
   data.append('action', 'createArticle');
-  data.append('nom', document.getElementById('inputNom').value);
-  data.append('categorie', document.getElementById('inputCategorie').value);
-  data.append('description', document.getElementById('inputDescriptions').value);
-  data.append('prix', document.getElementById('inputPrix').value);
-  data.append('quantiteInventaire', document.getElementById('inputQuantiteInventaire').value);
-  data.append('images', document.getElementById('inputImages').value);
   try {
       const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
           method: 'POST',
@@ -226,7 +221,7 @@ const ajoutArticle = async() => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            height: '60vh',
+            height: '75vh',
             minWidth: '40vw',
             maxWidth: '80vw',
             bgcolor: 'background.paper',
@@ -250,14 +245,14 @@ const ajoutArticle = async() => {
                 </Typography>
               </Box>
               <Box>
-                <Box sx={{display:"flex", flexDirection:"column", marginTop:"20px"}}>
+                <Box component="form" id="formAjout" name="formAjout" sx={{display:"flex", flexDirection:"column", marginTop:"20px"}}>
                 <ThemeProvider theme={theme}>
-                  <TextField id="inputNom" label="Nom" variant="outlined" sx={{color:'primary'}} />
-                  <TextField id="inputCategorie" label="Catégorie" variant="outlined" sx={{marginTop:"15px"}} />
-                  <TextField id="inputDescriptions" label="Descriptions" variant="outlined" sx={{marginTop:"15px"}} />
-                  <TextField id="inputPrix" label="Prix" variant="outlined" sx={{marginTop:"15px"}}/>
-                  <TextField id="inputQuantiteInventaire" label="Quantité" variant="outlined" sx={{marginTop:"15px"}}/>
-                  <Input id="inputImages"  variant="outlined"  type="file" sx={{marginTop:"15px"}} />
+                  <TextField id="inputNom" label="Nom" name="nom" variant="outlined" sx={{color:'primary'}} />
+                  <TextField id="inputCategorie" label="Catégorie" name="categorie" variant="outlined" sx={{marginTop:"15px"}} />
+                  <TextField id="inputDescriptions" label="Descriptions" name="description" variant="outlined" sx={{marginTop:"15px"}} />
+                  <TextField id="inputPrix" label="Prix" name="prix" variant="outlined" sx={{marginTop:"15px"}}/>
+                  <TextField id="inputQuantiteInventaire" label="Quantité" name="quantiteInventaire" variant="outlined" sx={{marginTop:"15px"}}/>
+                  <Input id="inputImages" name="image" variant="outlined"  type="file" sx={{marginTop:"15px"}} />
                   <Button onClick={ajoutArticle} variant="contained" sx={{marginTop:"15px", backgroundColor:"#386fbb", color:"#fff"}}>Ajouter</Button>
                 </ThemeProvider>
                 </Box>
