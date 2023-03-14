@@ -285,7 +285,13 @@ export default function EnhancedTable() {
 
   const [rows, setRows] = React.useState([]);
 
-  const requeteUpdateArticle = async(id, nom, categorie, descriptions, prix, quantiteInventaire) => {
+  const requeteUpdateArticle = async(id) => {
+    // let row = document.getElementById("row"+id);
+    let nom = document.getElementById("nom"+id).innerHTML;
+    let categorie = document.getElementById("categorie"+id).innerHTML;
+    let descriptions = document.getElementById("descriptions"+id).innerHTML;
+    let prix = document.getElementById("prix"+id).innerHTML;
+    let quantiteInventaire = document.getElementById("quantiteInventaire"+id).innerHTML;
     let data = new FormData();
     data.append('action', 'updateArticle');
     data.append('id', id);
@@ -294,6 +300,9 @@ export default function EnhancedTable() {
     data.append('descriptions', descriptions);
     data.append('prix', prix);
     data.append('quantiteInventaire', quantiteInventaire);
+    for(var pair of data) {
+      console.log(pair[1]);
+    }
     try {
         const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
             method: 'POST',
@@ -445,25 +454,26 @@ export default function EnhancedTable() {
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
+                      name={"row"+row.id}
                     >
                       <TableCell align="right">{row.id}</TableCell>
-                      <TableCell id='images' contentEditable='true'  align="right">
+                      <TableCell id={'images'+row.id} contentEditable='true'  align="right">
                         <img
                         src= {'../../../server/database/'+row.images}
                         width={60}
                         alt='game cover'
                         ></img>
                     </TableCell>
-                      <TableCell id='nom' contentEditable='true' align="right">{row.nom}</TableCell>
-                      <TableCell id='categorie' contentEditable='true' align="right">{row.categorie}</TableCell>
-                      <TableCell id='descriptions' contentEditable='true' align="right">{row.descriptions}</TableCell>
-                      <TableCell id='prix' contentEditable='true' align="right">{row.prix+"$"}</TableCell>
-                      <TableCell id='quantiteInventaire' contentEditable='true' align="right">{row.quantiteInventaire}</TableCell>
+                      <TableCell id={'nom'+row.id} contentEditable='true' align="right">{row.nom}</TableCell>
+                      <TableCell id={'categorie'+row.id} contentEditable='true' align="right">{row.categorie}</TableCell>
+                      <TableCell id={'descriptions'+row.id} contentEditable='true' align="right">{row.descriptions}</TableCell>
+                      <TableCell id={'prix'+row.id} contentEditable='true' align="right">{row.prix+"$"}</TableCell>
+                      <TableCell id={'quantiteInventaire'+row.id} contentEditable='true' align="right">{row.quantiteInventaire}</TableCell>
                       <TableCell align="right">
-                        <Button onClick={requeteUpdateArticle} sx={{backgroundColor: '#f1c232'}}><AutoFixHighIcon />Modifier</Button>
+                        <Button onClick={() => {requeteUpdateArticle(row.id)}} sx={{backgroundColor: '#f1c232'}}><AutoFixHighIcon />Modifier</Button>
                     </TableCell>
                       <TableCell align="right">
-                        <Button onClick={() => {requeteDeleteArticle(row.id)}}
+                        <Button onClick={() => {requeteDeleteArticle()}}
 
                          sx={{backgroundColor: '#ed8302'}}><DeleteIcon />Supprimer</Button>
                     </TableCell>
