@@ -53,7 +53,7 @@
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
             }  
             global $connexion;
-            $requette = "UPDATE articles SET , nom = ?, categorie = ? descriptions = ?, prix = ?, quantiteInventaire = ?, images = ? WHERE id = ?";
+            $requette = "UPDATE articles SET nom = '?', categorie = '?' descriptions = '?', prix = '?', quantiteInventaire = '?', images = '?' WHERE id = ?";
             $stmt = $connexion->prepare($requette);
             $stmt->execute([ $nom, $categorie, $description, $prix, $quantiteInventaire, $nouveauNom, $id]);
 
@@ -62,6 +62,7 @@
         }catch(PDOException $e){
             $msg = array("status" => "KO","msg" => "Erreur d'enregistrement de l'article $nom");
             echo json_encode($msg);
+            echo $e;
         } finally {
             unset($connexion); //Detruire la connexion
         }
