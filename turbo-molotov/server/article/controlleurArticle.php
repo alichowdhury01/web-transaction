@@ -42,6 +42,7 @@
         $description = $_POST['descriptions'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
         $repArticle = "../../client/src/assets/cardPicture/";
+        $nouveauNom = "";
 
         try{
             if($_FILES['image']['tmp_name'] != ""){
