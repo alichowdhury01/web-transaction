@@ -39,7 +39,7 @@
         $nom = $_POST['nom'];
         $categorie = $_POST['categorie'];
         $prix = $_POST['prix'];
-        $description = $_POST['description'];
+        $description = $_POST['descriptions'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
         $repArticle = "../../client/src/assets/cardPicture/";
 
