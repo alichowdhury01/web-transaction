@@ -42,7 +42,7 @@
         $description = $_POST['descriptions'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
         $repArticle = "../../client/src/assets/cardPicture/";
-        $nouveauNom = "";
+        $nouveauNom = "default.png";
 
         try{
             if($_FILES['image']['tmp_name'] != ""){
@@ -53,7 +53,7 @@
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
             }  
             global $connexion;
-            $requette = "UPDATE articles SET nom = '?', categorie = '?' descriptions = '?', prix = '?', quantiteInventaire = '?', images = '?' WHERE id = ?";
+            $requette = "UPDATE articles SET nom = ?, categorie = ?, descriptions = ?, prix = ?, quantiteInventaire = ?, images = ? WHERE id = ?";
             $stmt = $connexion->prepare($requette);
             $stmt->execute([ $nom, $categorie, $description, $prix, $quantiteInventaire, $nouveauNom, $id]);
 
