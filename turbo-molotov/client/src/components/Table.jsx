@@ -300,9 +300,9 @@ export default function EnhancedTable() {
     data.append('descriptions', descriptions);
     data.append('prix', prix);
     data.append('quantiteInventaire', quantiteInventaire);
-    for(var pair of data) {
-      console.log(pair[1]);
-    }
+    // for(var pair of data) {
+    //   console.log(pair[1]);
+    // }
     try {
         const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
             method: 'POST',
