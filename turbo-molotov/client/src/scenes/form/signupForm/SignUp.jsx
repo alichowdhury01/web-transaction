@@ -18,6 +18,7 @@ const SignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    data.append('action', 'enreg');
     const password = data.get('password');
     const confirmPassword = data.get('confirmPassword');
 
@@ -25,7 +26,7 @@ const SignUp = () => {
         alert("Passwords do not match. Please try again.");
     } else {
         try {
-          const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/enregMembre.php', {
+          const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurgMembre.php', {
               method: 'POST',
               body: data
           });
