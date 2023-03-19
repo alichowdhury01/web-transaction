@@ -10,6 +10,7 @@
         $description = $_POST['description'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
         $repArticle = "../database/images/";
+        $nouveauNom = "default.png";
 
         try{
             if($_FILES['image']['tmp_name'] != ""){
