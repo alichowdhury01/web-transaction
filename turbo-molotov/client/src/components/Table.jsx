@@ -27,6 +27,7 @@ import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
 
 const theme = createTheme();
+let id = 0;
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -287,8 +288,9 @@ export default function EnhancedTable() {
   const [rows, setRows] = React.useState([]);
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = (rowID) => {
     setOpen(true);
+    id = rowID;
   };
 
   const handleClose = (event, reason) => {
@@ -298,26 +300,6 @@ export default function EnhancedTable() {
 
     setOpen(false);
   };
-
-    const action = (
-    <React.Fragment>
-      <Button color="secondary" size="small" onClick={requeteDeleteArticle}>
-        Oui 
-      </Button>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        Annuler
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
 
   const requeteUpdateArticle = async(id) => {
     // let row = document.getElementById("row"+id);
@@ -411,6 +393,25 @@ export default function EnhancedTable() {
     }
     setSelected([]);
   };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={() => requeteDeleteArticle(id)}>
+        Oui 
+      </Button>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        Annuler
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -510,7 +511,7 @@ export default function EnhancedTable() {
                         <Button onClick={() => {requeteUpdateArticle(row.id)}} sx={{backgroundColor: '#f1c232'}}><AutoFixHighIcon />Modifier</Button>
                     </TableCell>
                       <TableCell align="right">
-                        <Button onClick={handleOpen}
+                        <Button onClick={() => handleOpen(row.id)}
 
                          sx={{backgroundColor: '#ed8302'}}><DeleteIcon />Supprimer</Button>
                     </TableCell>
