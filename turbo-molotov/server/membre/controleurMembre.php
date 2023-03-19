@@ -46,7 +46,7 @@
                 global $connexion;
                 $id = $_POST['id'];
                 
-                $requette = "UPDATE membres SET 'status' = 'I' WHERE id=(?)";
+                $requette = "UPDATE connexion SET statut = 'I' WHERE id=(?)";
                 $stmt = $connexion->prepare($requette);
                 $stmt->execute([$id]);
                 
@@ -59,11 +59,11 @@
                 global $connexion;
                 $id = $_POST['id'];
                 
-                $requette = "UPDATE membres SET 'status' = 'A' WHERE id=(?)";
+                $requette = "UPDATE connexion SET statut = 'A' WHERE id=(?)";
                 $stmt = $connexion->prepare($requette);
                 $stmt->execute([$id]);
                 
-                $msg = array("status" => "OK","msg" => "Membre $id désactivé");
+                $msg = array("status" => "OK","msg" => "Membre $id activé");
                 echo json_encode($msg);
                 unset($connexion); //Detruire la connexion
         }
