@@ -23,6 +23,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { Button, Backdrop, Modal, Fade, TextField, Input } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
 
 const theme = createTheme();
 
@@ -282,8 +284,40 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const [rows, setRows] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+    const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={requeteDeleteArticle}>
+        Oui 
+      </Button>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        Annuler
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
 
   const requeteUpdateArticle = async(id) => {
     // let row = document.getElementById("row"+id);
@@ -351,10 +385,6 @@ export default function EnhancedTable() {
             }
         }
 
-
-
-
-      
       React.useEffect(() => {
           const fetchData = async () => {
               try {
@@ -423,6 +453,13 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ background: "#1E133C", padding: 5, width: '100%'}}>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Est-ce que vous voulez vraiment supprimer cet article ?"
+        action={action}
+      />
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer >
@@ -473,7 +510,7 @@ export default function EnhancedTable() {
                         <Button onClick={() => {requeteUpdateArticle(row.id)}} sx={{backgroundColor: '#f1c232'}}><AutoFixHighIcon />Modifier</Button>
                     </TableCell>
                       <TableCell align="right">
-                        <Button onClick={() => {requeteDeleteArticle()}}
+                        <Button onClick={handleOpen}
 
                          sx={{backgroundColor: '#ed8302'}}><DeleteIcon />Supprimer</Button>
                     </TableCell>
