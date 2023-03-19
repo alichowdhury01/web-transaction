@@ -15,6 +15,19 @@
         // @move_uploaded_file($tmpFic, /*$repAvatar.$nouveauNom*/);
         // }
 
+        function reqLister(){
+                global $connexion;
+                
+                $requette = "SELECT * FROM membres";
+                $stmt = $connexion->prepare($requette);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                $msg = array("status" => "OK","msg" => "Membres listé","data" => $result);
+                echo json_encode($msg);
+                unset($connexion); //Detruire la connexion
+        }
+
         function reqEnreg(){
                 global $connexion;
                 $firstName = $_POST['firstName'];
@@ -70,6 +83,9 @@
 
         $action = $_POST['action'];
         switch($action){
+                case 'lister':
+                        reqLister();
+                break;
                 case 'enreg':
                         reqEnreg();
                 break;
