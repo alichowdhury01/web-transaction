@@ -34,6 +34,7 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/signin" element={<Connexion />}/>
           <Route path="/admin" element={<Admin />}/>
+          <Route path="/membre" element={<Membre />}/>
           <Route path="/contact" element={<ContactUs />}/>
         </Routes>
       </BrowserRouter>
