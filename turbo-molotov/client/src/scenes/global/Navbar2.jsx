@@ -49,11 +49,7 @@ return (
                     Déconnexion
                 </Typography>
             </Button> 
-            <Button>
-                <Typography component={Link} to={"/membre"} sx={{color:"#fff", textDecoration:"none"}}>
-                    Mon compte
-                </Typography>
-            </Button>
+
             </>
             ) : ( 
             <Button>
@@ -77,9 +73,10 @@ return (
                 <SearchBar />
             </Box>
             <Box display="flex"flexDirection="row"justifyContent="space-between" columnGap="20px"margin="auto 0 auto auto">
+            {authenticated ? (
                 <IconButton sx={{ color: "#fff" }} >
             <PersonOutline />
-          </IconButton>
+          </IconButton>) : (<></>)}
           <Badge badgeContent={cart.length} color="secondary" invisible={cart.length === 0} sx={{"& .MuiBadge-badge": { right: 5, top: 5, padding: "0 4px", height: "14px", minWidth: "13px", },}}>
             <IconButton onClick={() => dispatch(setIsCartOpen({}))} sx={{ color: "#fff" }}>
               <ShoppingBagOutlined />
