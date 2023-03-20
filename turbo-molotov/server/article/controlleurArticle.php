@@ -164,7 +164,7 @@
             getAllArticleByCategorie();
             break;
         default:
-            $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
+            $msg = array("status" => "KO","msg" => "Erreur du controleur des articles");
             echo json_encode($msg);
             break;
     }
