@@ -97,7 +97,7 @@
                   $requette = "SELECT * FROM membres WHERE courriel=(?)";
                         $stmt = $connexion->prepare($requette);
                         $stmt->execute([$email]);
-                        $rs = $stmt->fetchAll();
+                        $rs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         
                         $msg = array("status" => "OK","msg" => $rs);
                         echo json_encode($msg);   
