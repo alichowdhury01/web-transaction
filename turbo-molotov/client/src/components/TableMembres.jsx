@@ -29,7 +29,6 @@ import CloseIcon from '@mui/icons-material/Close';
 const theme = createTheme();
 let id = 0;
 
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -167,28 +166,6 @@ function EnhancedTableToolbar(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [alert, setAlert] = React.useState(false);
-  
-const ajoutArticle = async() => {
-  
-  let formAjout = document.getElementById("formAjout");
-  let data = new FormData(formAjout);
-  data.append('action', 'createArticle');
-  try {
-      const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
-          method: 'POST',
-          body: data
-      });
-      setAlert(true);
-      setTimeout(() => {
-        formAjout.handleClose();
-      }, 4000);
-      const json = await response.text();
-      console.log(json);
-  } catch (error) {
-      console.log(error);
-  }
-}
 
   return (
     <Toolbar
@@ -263,7 +240,7 @@ const ajoutArticle = async() => {
                   <TextField id="inputQuantiteInventaire" label="Quantité" name="quantiteInventaire" variant="outlined" sx={{marginTop:"15px"}}/>
                   <Input id="inputImages" name="image" variant="outlined"  type="file" sx={{marginTop:"15px"}} />
                   <Button onClick={ajoutArticle} variant="contained" sx={{marginTop:"15px", backgroundColor:"#386fbb", color:"#fff"}}>Ajouter</Button>
-                  {alert ? <Alert id = 'msgAjout' >Article ajouté</Alert> : <></>}
+                  <Alert id = 'msgAjout'></Alert>
                 </ThemeProvider>
                 </Box>
               
