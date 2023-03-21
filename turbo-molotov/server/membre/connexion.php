@@ -18,7 +18,8 @@
                         "status" => "OK",
                         "reponse" => "Vous etes connecté en temps que membre!",
                         "session" => session_id(),
-                        "page" => "membre"
+                        "page" => "membre",
+                        'email' => $email
                     );
                     echo json_encode($reponse);
                     
