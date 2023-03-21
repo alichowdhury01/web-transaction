@@ -68,6 +68,20 @@
                 unset($connexion); //Detruire la connexion
         }
 
+        function getAccountInfo() {
+                global $connexion;
+                $email = $_POST['email'];
+                
+                $requette = "SELECT * FROM membres WHERE email=(?)";
+                $stmt = $connexion->prepare($requette);
+                $stmt->execute([$id]);
+                $rs = $stmt->fetch();
+                
+                $msg = array("status" => "OK","msg" => $rs);
+                echo json_encode($msg);
+                unset($connexion); //Detruire la connexion
+        }
+
         $action = $_POST['action'];
         switch($action){
                 case 'enreg':
@@ -79,6 +93,8 @@
                 case 'reActiv':
                         reqReActiv();
                 break;
+                case 'getAccount':
+                        getAccountInfo();
                 default:
                 $msg = array("status" => "KO","msg" => "Erreur du controleur des membres");
                 echo json_encode($msg);
