@@ -27,7 +27,6 @@
                 echo json_encode($msg);
                 unset($connexion); //Detruire la connexion
         }
-        function reqListeMember() {}
 
         function reqEnreg(){
                 global $connexion;
@@ -86,8 +85,6 @@
         switch($action){
                 case 'lister':
                         reqLister();
-                case 'listeMembre':
-                        reqListeMember();
                 break;
                 case 'enreg':
                         reqEnreg();
