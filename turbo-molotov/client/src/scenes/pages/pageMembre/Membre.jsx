@@ -29,7 +29,6 @@ const Membre = () => {
       });
       const result = await response.json();
       console.log("fetch results: " + JSON.stringify(result));
-      return result;
     } catch (error) {
       console.error(error+"error");
     }
