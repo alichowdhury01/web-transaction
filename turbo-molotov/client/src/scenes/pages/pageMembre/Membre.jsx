@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Typography, Modal} from "@mui/material";
 
 const style = {
@@ -14,10 +14,11 @@ const style = {
 };
 
 const Membre = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState(null);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  
   const handleAccount = async () => {
     let data = new FormData();
     data.append('email', sessionStorage.getItem('email'));
@@ -28,14 +29,21 @@ const Membre = () => {
       body: data
       });
       const result = await response.json();
-      console.log("fetch results: " + JSON.stringify(result));
+      setName(result.nom);
+  
     } catch (error) {
       console.error(error+"error");
     }
+
+
   }
+
+  useEffect(() => {
+    handleAccount();
+  }, []);
    
   return (
-    <Box onLoad={handleAccount}
+    <Box onLoad={handleAccount()}
       bgcolor={'#1f143d'}
       width={'100vw'}
       display="flex"
@@ -63,7 +71,7 @@ const Membre = () => {
             padding='1rem'
             >
             <Typography sx={{color:'#fff', margin:'1rem 3rem 1rem 3rem'}} variant="p">INFORMATIONS DE CONTACT</Typography>
-            <Typography id='fullName' sx={{color:'#fff', margin:'1rem 3rem 0.1rem 3rem'}} variant="p">Nom :  </Typography>
+            <Typography id='fullName' sx={{color:'#fff', margin:'1rem 3rem 0.1rem 3rem'}} variant="p">Nom : {name} </Typography>
             <Typography id='email' sx={{color:'#fff', margin:'0.1rem 3rem 1rem 3rem'}} variant="p">Email : {sessionStorage.getItem('email')}</Typography>
 
             <Button onClick={handleOpen} sx={{margin:'1rem 3rem 1rem 3rem', backgroundColor:'#1f143d', width:'15rem', color:'#fff', textShadow:' 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36)'}} variant="contained">
