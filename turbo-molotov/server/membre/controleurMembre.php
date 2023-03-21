@@ -112,7 +112,7 @@
                         $stmt->execute([$email]);
                         $rs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         
-                        $msg = array("status" => "OK","msg" => $rs);
+                        $msg = array($rs);
                         echo json_encode($msg);   
                 }catch(PDOException $e){
                         $msg = array("status" => "KO","msg" => "Erreur de controleur d'account du member");
