@@ -20,6 +20,7 @@ export const Navbar2 = () => {
     // clear session storage and update authenticated state
     localStorage.removeItem("session");
     localStorage.removeItem("role");
+    sessionStorage.removeItem("email");
     setAuthenticated(false);
     // navigate to home page
     navigate("/");
