@@ -30,6 +30,7 @@ export default function SignIn() {
       console.log("fetch results: " + JSON.stringify(result));
       if(result.status === "OK"){
         localStorage.setItem('session', result.session);
+        sessionStorage.setItem('email', result.email);
         setAuthenticated(true);
         console.log(localStorage.getItem("session"));
         navigate("/"+result.page);
