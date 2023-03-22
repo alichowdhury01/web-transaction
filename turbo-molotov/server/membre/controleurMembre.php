@@ -145,6 +145,27 @@
                 
         }
 
+        function updateAdressFacturation() {
+                global $connexion;
+                $email = $_POST['email'];
+
+                try{
+                  $requette = "UPDATE adressefacturation SET adresse = (?), ville = (?), province = (?), cp = (?) WHERE courriel=(?)";
+                        $stmt = $connexion->prepare($requette);
+                        $stmt->execute([$_POST['adresse'], $_POST['ville'], $_POST['province'], $_POST['cp'], $email]);
+                        
+                       
+                        $msg = array("status" => "success","msg" => "Adresse facturation mise à jour");
+                        echo json_encode($msg);   
+                }catch(PDOException $e){
+                        $msg = array("status" => "KO","msg" => "Erreur de controleur d'account du members");
+                        echo json_encode($msg);
+                    } finally {
+                        unset($connexion); //Detruire la connexion
+                    }
+                
+        }
+
         function getAdressLivraison() {
                 global $connexion;
                 $email = $_POST['email'];
@@ -165,6 +186,27 @@
                     }
                 
         }
+
+        function updateAdresselivraison() {
+            global $connexion;
+            $email = $_POST['email'];
+
+            try{
+              $requette = "UPDATE adresselivraison SET adresse = (?), ville = (?), province = (?), cp = (?) WHERE courriel=(?)";
+                    $stmt = $connexion->prepare($requette);
+                    $stmt->execute([$_POST['adresse'], $_POST['ville'], $_POST['province'], $_POST['cp'], $email]);
+                    
+                   
+                    $msg = array("status" => "success","msg" => "Adresse facturation mise à jour");
+                    echo json_encode($msg);   
+            }catch(PDOException $e){
+                    $msg = array("status" => "KO","msg" => "Erreur de controleur d'account du members");
+                    echo json_encode($msg);
+                } finally {
+                    unset($connexion); //Detruire la connexion
+                }
+            
+    }
 
         function updatePwd() {
             global $connexion;
@@ -207,6 +249,12 @@
                 case 'getAdresssFacturation':
                         getAdressFacturation();
                 break;
+                case 'updateAdressFacturation':
+                    updateAdressFacturation();
+                    break;
+                case 'updateAdressLivraison':
+                    updateAdresselivraison();
+                    break;
                 case 'getAdresssLivraison':
                         getAdressLivraison();
                 break;
