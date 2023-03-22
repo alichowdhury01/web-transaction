@@ -26,21 +26,21 @@ function Home() {
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
-        <ItemCard imageSrc={fifa23} details={"FIFA 23 PC ORIGIN (EN)"} prize={"44,19 $CA"} disabledState={false} />
-        <ItemCard imageSrc={uncharted} details={"UNCHARTED: LEGACY OF THIEVES COLLECTION PC"} prize={"35,69 $CA"} disabledState={false} />
-        <ItemCard imageSrc={sponge} details={"SPONGEBOB SQUAREPANTS: THE COSMIC SHAKE PC"} prize={"38,19 $CA"} disabledState={false} />
-        <ItemCard imageSrc={horizon} details={"HORIZON ZERO DAWN - COMPLETE EDITION PC"} prize={"15,29 $CA"} disabledState={false} />
-        <ItemCard imageSrc={deadspace} details={"DEAD SPACE (REMAKE) PC (EN)"} prize={"67,99 $CA"} disabledState={false} />
-        <ItemCard imageSrc={deadspace} details={"DEAD SPACE (REMAKE) PC (fr)"} prize={"67,99 $CA"} disabledState={false} />
+        <ItemCard imageSrc={fifa23} title={"FIFA 23"} description={"PC Edition "} prize={"44,19 $CA"} disabledState={false} />
+        <ItemCard imageSrc={uncharted} title={"UNCHARTED: LEGACY OF THIEVES"} prize={"35,69 $CA"} disabledState={false} />
+        <ItemCard imageSrc={sponge} description={"SPONGEBOB SQUAREPANTS: THE COSMIC SHAKE PC"} title={"SPONGEBOB SQUAREPANTS: THE COSMIC SHAKE PC"} prize={"38,19 $CA"} disabledState={false} />
+        <ItemCard imageSrc={horizon} description={"HORIZON ZERO DAWN - COMPLETE EDITION PC"} prize={"15,29 $CA"} disabledState={false} />
+        <ItemCard imageSrc={deadspace} description={"DEAD SPACE (REMAKE) PC (EN)"} prize={"67,99 $CA"} disabledState={false} />
+        <ItemCard imageSrc={deadspace} description={"DEAD SPACE (REMAKE) PC (fr)"} prize={"67,99 $CA"} disabledState={false} />
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
-        <ItemCard imageSrc={ark} details={"ark"} prize={"47,19 $CA"} disabledState={false} />
-        <ItemCard imageSrc={reddead} details={"RED DEAD REDEMPTION 2 PC"} prize={"30,69 $CA"} disabledState={false} />
-        <ItemCard imageSrc={dayz} details={"DAYZ PC"} prize={"38,19 $CA"} disabledState={false} />
-        <ItemCard imageSrc={returnal} details={"RETURNAL + BONUS PC"} prize={"10,29 $CA"} disabledState={false} />
-        <ItemCard imageSrc={wildwest} details={"WILD WEST DYNASTY PC"} prize={"À VENIR"} disabledState={true} />
-        <ItemCard imageSrc={squad} details={"SQUAD PC"} prize={"À VENIR"} disabledState={true} />
+        <ItemCard imageSrc={ark} description={"ark"} prize={"47,19 $CA"} disabledState={false} />
+        <ItemCard imageSrc={reddead} description={"RED DEAD REDEMPTION 2 PC"} prize={"30,69 $CA"} disabledState={false} />
+        <ItemCard imageSrc={dayz} description={"DAYZ PC"} prize={"38,19 $CA"} disabledState={false} />
+        <ItemCard imageSrc={returnal} description={"RETURNAL + BONUS PC"} prize={"10,29 $CA"} disabledState={false} />
+        <ItemCard imageSrc={wildwest} description={"WILD WEST DYNASTY PC"} prize={"À VENIR"} disabledState={true} />
+        <ItemCard imageSrc={squad} description={"SQUAD PC"} prize={"À VENIR"} disabledState={true} />
       </Box>
 
     </Box>

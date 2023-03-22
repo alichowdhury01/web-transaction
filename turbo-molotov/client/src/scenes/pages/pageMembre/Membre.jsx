@@ -80,7 +80,7 @@ const Membre = () => {
         const ville = data.get('ville');
         const province = data.get('province');
         const cp = data.get('cp');
-        console.log(data);
+
         try {
             const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurMembre.php', {
             method: 'POST',
