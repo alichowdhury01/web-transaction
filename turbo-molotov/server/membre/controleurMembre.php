@@ -112,8 +112,51 @@
                         $stmt->execute([$email]);
                         $rs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         
-                        $msg = array($rs);
-                        echo json_encode($msg);   
+                       
+                        echo json_encode(array($rs));   
+                }catch(PDOException $e){
+                        $msg = array("status" => "KO","msg" => "Erreur de controleur d'account du member");
+                        echo json_encode($msg);
+                    } finally {
+                        unset($connexion); //Detruire la connexion
+                    }
+                
+        }
+
+
+        function getAdressFacturation() {
+                global $connexion;
+                $email = $_POST['email'];
+
+                try{
+                  $requette = "SELECT * FROM adressefacturation WHERE courriel=(?)";
+                        $stmt = $connexion->prepare($requette);
+                        $stmt->execute([$email]);
+                        $rs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        
+                       
+                        echo json_encode(array($rs));   
+                }catch(PDOException $e){
+                        $msg = array("status" => "KO","msg" => "Erreur de controleur d'account du member");
+                        echo json_encode($msg);
+                    } finally {
+                        unset($connexion); //Detruire la connexion
+                    }
+                
+        }
+
+        function getAdressLivraison() {
+                global $connexion;
+                $email = $_POST['email'];
+
+                try{
+                  $requette = "SELECT * FROM adresselivraison WHERE courriel=(?)";
+                        $stmt = $connexion->prepare($requette);
+                        $stmt->execute([$email]);
+                        $rs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        
+                       
+                        echo json_encode(array($rs));   
                 }catch(PDOException $e){
                         $msg = array("status" => "KO","msg" => "Erreur de controleur d'account du member");
                         echo json_encode($msg);
@@ -139,6 +182,12 @@
                 break;
                 case 'getAccount':
                         getAccountInfo();
+                break;
+                case 'getAdresssFacturation':
+                        getAdressFacturation();
+                break;
+                case 'getAdresssLivraison':
+                        getAdressLivraison();
                 break;
                 default:
                 $msg = array("status" => "KO","msg" => "Erreur du controleur des membres");

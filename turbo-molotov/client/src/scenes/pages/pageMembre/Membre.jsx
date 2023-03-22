@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Typography, Modal} from "@mui/material";
+import { Box, Button, Typography, Modal, TextField } from "@mui/material";
 
 const style = {
   position: 'absolute',
@@ -15,9 +15,18 @@ const style = {
 
 const Membre = () => {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(null);
+  const [name, setName] = useState('');  
+  const [adresseFacturation, setAdresseFacturation] = useState('');
+  const [villeFacturation, setVilleFacturation] = useState('');
+  const [provinceFacturation, setProvinceFacturation] = useState('');
+  const [codePostalFacturation, setCodePostalFacturation] = useState('');
+  const [adresseLivraison, setAdresseLivraison] = useState('');
+  const [villeLivraison, setVilleLivraison] = useState('');
+  const [provinceLivraison, setProvinceLivraison] = useState('');
+  const [codePostalLivraison, setCodePostalLivraison] = useState('');
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   
   const handleAccount = async () => {
     let data = new FormData();
@@ -29,19 +38,59 @@ const Membre = () => {
       body: data
       });
       const result = await response.json();
-      setName(result.nom);
+      setName(result[0][0].nom + " " + result[0][0].prenom); 
+
   
     } catch (error) {
       console.error(error+"error");
     }
-
-
   }
 
-  useEffect(() => {
-    handleAccount();
-  }, []);
-   
+  const handleAdressFacturation = async () => {
+    let data = new FormData();
+    data.append('email', sessionStorage.getItem('email'));
+    data.append('action', 'getAdresssFacturation');
+    try {
+      const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurMembre.php', {
+      method: 'POST',
+      body: data
+      });
+      const result = await response.json();
+      console.log(result);
+      setAdresseFacturation(result[0][0].adresse);
+      setVilleFacturation(result[0][0].ville);
+      setProvinceFacturation(result[0][0].province);
+      setCodePostalFacturation(result[0][0].cp);
+    } catch (error) {
+      console.error(error+"error");
+    }
+  }
+
+  const handleAdressLivraison = async () => {
+    let data = new FormData();
+    data.append('email', sessionStorage.getItem('email'));
+    data.append('action', 'getAdresssLivraison');
+    try {
+      const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurMembre.php', {
+      method: 'POST',
+      body: data
+      });
+      const result = await response.json();
+      console.log(result);
+      setAdresseLivraison(result[0][0].adresse);
+      setVilleLivraison(result[0][0].ville);
+      setProvinceLivraison(result[0][0].province);
+      setCodePostalLivraison(result[0][0].cp);
+    } catch (error) {
+      console.error(error+"error");
+    }
+}
+
+const handleUpdatePwd = async (event) => {
+}
+
+
+
   return (
     <Box onLoad={handleAccount()}
       bgcolor={'#1f143d'}
@@ -83,10 +132,37 @@ const Membre = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Modification du mot de pass
-                  </Typography>
-
+                    <Box display='flex' flexDirection='column' marginLeft='auto' marginRight='auto' >
+                        <Typography sx={{justifyContent: 'center', marginLeft: 'auto', mr: 'auto'}}  variant="h6" component="h2">
+                            Modification du mot de pass
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <Box display='flex' flexDirection='column' marginLeft='auto' marginRight='auto' component='form' onSubmit={handleUpdatePwd} method="POST">
+                            <TextField
+                                sx={{marginBottom:'0.5rem'}}
+                                id="outlined-password-input"
+                                label="Nouveau mot de pass"
+                                type="password"
+                                autoComplete="current-password"
+                                variant="outlined"
+                                />
+                            <TextField
+                                sx={{marginBottom:'0.5rem'}}
+                                id="outlined-password-input"
+                                label="Confirmer le mot de pass"
+                                type="password"
+                                autoComplete="current-password"
+                                variant="outlined"
+                                />
+                            <Button
+                             sx={{backgroundColor:'#1f143d', color:'#fff', textShadow:' 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36)'}} variant="contained"
+                             type='submit'
+                             >
+                                <Typography  variant="p">Modifier</Typography>
+                            </Button>
+                        </Box>
+                        </Typography>
+                    </Box>
                 </Box>
             </Modal>
           </Box>
@@ -98,7 +174,7 @@ const Membre = () => {
               marginTop='3rem'
               marginBottom='3rem'>
 
-              <Box
+              <Box onLoad={handleAdressFacturation()}
                 bgcolor='#0c0020'
                 display="flex"
                 flexDirection="column"
@@ -107,17 +183,29 @@ const Membre = () => {
             
                 >
                 <Typography sx={{color:'#fff', margin:'1rem 3rem 1rem 3rem'}} variant="p">ADRESSE DE FACTURATION PAR DÉFAULT</Typography>
-                </Box>
+                <Typography id='adresse' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}} variant="p">Adresse : {adresseFacturation} </Typography>
+                <Typography id='ville' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}}variant="p">Ville : {villeFacturation} </Typography>
+                <Typography id='province' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}} variant="p">Province : {provinceFacturation} </Typography>
+                <Typography id='codePostal' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}} variant="p">Code postal : {codePostalFacturation} </Typography>
+                <Button  sx={{margin:'1rem 3rem 1rem 3rem', backgroundColor:'#1f143d', width:'15rem', color:'#fff', textShadow:' 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36)'}} variant="contained">
+                  <Typography  variant="p">Modifier l'adresse</Typography>
+                </Button>
+              </Box>
 
-                <Box
-                bgcolor='#0c0020'
-                display="flex"
-                flexDirection="column"
-                width='50%'
-                margin='auto auto auto 10px'
-             
-                >
+                <Box onLoad={handleAdressLivraison()}
+                  bgcolor='#0c0020'
+                  display="flex"
+                  flexDirection="column"
+                  width='50%'
+                  margin='auto auto auto 10px'>
                 <Typography sx={{color:'#fff', margin:'1rem 3rem 1rem 3rem'}} variant="p">ADRESSE DE LIVRAISON PAR DÉFAULT</Typography>
+                <Typography id='adresse' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}} variant="p">Adresse : {adresseLivraison} </Typography>
+                <Typography id='ville' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}} variant="p">Ville : {villeLivraison} </Typography>
+                <Typography id='province' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}} variant="p">Province : {provinceLivraison} </Typography>
+                <Typography id='codePostal' sx={{color:'#fff', margin:'0.5rem 3rem 0.5rem 3rem'}} variant="p">Code postal : {codePostalLivraison} </Typography>
+                <Button  sx={{margin:'1rem 3rem 1rem 3rem', backgroundColor:'#1f143d', width:'15rem', color:'#fff', textShadow:' 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36)'}} variant="contained">
+                  <Typography  variant="p">Modifier l'adresse</Typography>
+                </Button>
                 </Box>
 
 
@@ -131,4 +219,4 @@ const Membre = () => {
   )
 }
 
-export default Membre
+export default Membre;
