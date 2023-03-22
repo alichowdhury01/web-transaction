@@ -87,6 +87,34 @@ const Membre = () => {
 }
 
 const handleUpdatePwd = async (event) => {
+    event.preventDefault();
+    let data = new FormData(event.currentTarget);
+    data.append('email', sessionStorage.getItem('email'));
+    data.append('action', 'updatePwd');
+    const password = data.get('password');
+    const passwordConfirm = data.get('passwordConfirm');
+
+    if(password !== passwordConfirm){
+        alert('Les mots de passe ne sont pas identiques');
+    }else{
+        try {
+            const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurMembre.php', {
+            method: 'POST',
+            body: data
+            });
+            const result = await response.json();
+            console.log(result);
+            if(result !== 'success'){
+                alert('Mot de passe modifié avec succès');
+                handleClose();
+            }else{
+                alert('Erreur lors de la modification du mot de passe');
+            }
+        } catch (error) {
+            console.error(error+"error");
+        }
+    }
+
 }
 
 
@@ -143,6 +171,7 @@ const handleUpdatePwd = async (event) => {
                                 id="outlined-password-input"
                                 label="Nouveau mot de pass"
                                 type="password"
+                                name='password'
                                 autoComplete="current-password"
                                 variant="outlined"
                                 />
@@ -151,6 +180,7 @@ const handleUpdatePwd = async (event) => {
                                 id="outlined-password-input"
                                 label="Confirmer le mot de pass"
                                 type="password"
+                                name='passwordConfirm'
                                 autoComplete="current-password"
                                 variant="outlined"
                                 />

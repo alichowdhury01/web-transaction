@@ -166,6 +166,27 @@
                 
         }
 
+        function updatePwd() {
+            global $connexion;
+            $email = $_POST['email'];
+
+            try{
+              $requette = "UPDATE connexion SET pass = (?) WHERE courriel=(?)";
+                    $stmt = $connexion->prepare($requette);
+                    $stmt->execute([$_POST['password'], $email]);
+                    $rs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                   
+                    $msg = array("success");
+                    echo json_encode($msg);
+            }catch(PDOException $e){
+                    $msg = array("status" => "KO","msg" => "Erreur de controleur d'account du member");
+                    echo json_encode($msg);
+                } finally {
+                    unset($connexion); //Detruire la connexion
+                }
+        }
+
         $action = $_POST['action'];
         switch($action){
                 case 'lister':
@@ -188,6 +209,9 @@
                 break;
                 case 'getAdresssLivraison':
                         getAdressLivraison();
+                break;
+                case 'updatePwd':
+                        updatePwd();
                 break;
                 default:
                 $msg = array("status" => "KO","msg" => "Erreur du controleur des membres");
