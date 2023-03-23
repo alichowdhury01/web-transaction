@@ -13,8 +13,8 @@ export default function ItemCard(props) {
   return (
     <Box display="flex" flexDirection="column" width="20%"  >
         <Box sx={{ width: "100%",  borderRadius:"76px", border:"none"  }}>
-        <CardMedia component="img" image={props.imageSrc}  sx={{borderRadius:"5px", zIndex:"1"}} />
-        <CardMedia component="img" image={productshadow} sx={{bgcolor:"#1e133c",  mt:"-1px", zIndex:'2'}}/>
+        <CardMedia component="img" src={props.imageSrc}  sx={{borderRadius:"5px", zIndex:"1"}} />
+        <CardMedia component="img" src={productshadow} sx={{bgcolor:"#1e133c",  mt:"-1px", zIndex:'2'}}/>
         </Box>
 
         <Box height={"295px"} m="auto" display="flex" flexDirection="column" width="100%" bgcolor="#0c0020" borderRadius='10px' justifyContent="center">
@@ -33,7 +33,7 @@ export default function ItemCard(props) {
             {props.prix}
           </Typography> 
           
-          <Button disabled={props.disabledState} sx={{bgcolor:"#14ca8d", m:"auto", width:"95%", color:"#fff"}}
+          <Button sx={{bgcolor:"#14ca8d", m:"auto", width:"95%", color:"#fff"}}
             onClick={ () => {
               const item = {
                 id: props.itemId,

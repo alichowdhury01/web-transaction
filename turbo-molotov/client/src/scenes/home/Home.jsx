@@ -1,8 +1,8 @@
 import React from "react";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import { shades } from "../../theme";
 import { MainCarousel, SideCard, ItemCard } from "../../components/index.js";
-import {darksoul3, deadside, Fallout76, skyrim, fifa23, uncharted, sponge, horizon, deadspace, ApexLegends, supermario, dayz, ark, reddead, returnal, wildwest, squad} from "../../assets/cardPicture/index";
+import { darksoul3, deadside, Fallout76, skyrim, ApexLegends, supermario, } from "../../assets/cardPicture/index";
 
 function Home() {
   const [firstRowItems, setFirstRowItems] = React.useState([]);
@@ -23,9 +23,9 @@ function Home() {
         const result = await response.json();
         console.log(result);
 
-
         setFirstRowItems(result[0].slice(0, 6));
-        setSecondRowItems(result[0].slice(6, 1));
+        setSecondRowItems(result[0].slice(6, 12));
+
       } catch (error) {
         console.error(error);
       }
@@ -54,11 +54,11 @@ function Home() {
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
-        {firstRowItems.map((item) => ( <ItemCard key={item.id} imageSrc={"./"+item.images} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
+        {firstRowItems.map((item) => ( <ItemCard key={item.id} imageSrc={require("../../assets/images/"+item.images)} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
-        {secondRowItems.map((item) => ( <ItemCard key={item.id} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
+        {secondRowItems.map((item) => ( <ItemCard key={item.id} imageSrc={require("../../assets/images/"+item.images)} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
       </Box> 
 
     </Box>
