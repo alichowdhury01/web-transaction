@@ -9,7 +9,7 @@
         $prix = $_POST['prix'];
         $description = $_POST['description'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
-        $repArticle = "../database/images/";
+        $repArticle = "../../client/src/assets/images/";
         $nouveauNom = "default.png";
 
         try{
@@ -42,7 +42,7 @@
         $prix = $_POST['prix'];
         $description = $_POST['descriptions'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
-        $repArticle = "../../client/src/assets/cardPicture/";
+        $repArticle = "../../client/src/assets/images/";
         $nouveauNom = "default.png";
 
         try{
@@ -52,6 +52,7 @@
                 $extension = strrchr($nomOriginal,'.');
                 $nouveauNom = sha1($nom.time()).$extension;
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
+                // unlink(); //TO DO
             }  
             global $connexion;
             $requette = "UPDATE articles SET nom = ?, categorie = ?, descriptions = ?, prix = ?, quantiteInventaire = ?, images = ? WHERE id = ?";
