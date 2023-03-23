@@ -114,8 +114,7 @@
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $msg = array("status" => "OK","data" => $result);
-            echo json_encode($msg);
+            echo json_encode(array($result));
         }catch(PDOException $e){
             $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
             echo json_encode($msg);
@@ -131,10 +130,9 @@
             $requette = "SELECT * FROM articles WHERE categorie = ?";
             $stmt = $connexion->prepare($requette);
             $stmt->execute([$categorie]);
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 
-            $msg = array("status" => "OK","msg" => $result);
-            echo json_encode($msg['msg']);
+            echo json_encode(array($result));
         }catch(PDOException $e){
             $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
             echo json_encode($msg);

@@ -18,29 +18,31 @@ export default function ItemCard(props) {
         </Box>
 
         <Box height={"295px"} m="auto" display="flex" flexDirection="column" width="100%" bgcolor="#0c0020" borderRadius='10px' justifyContent="center">
+          <Typography sx={{display:"none"}}>{props.id}</Typography>
           <Typography gutterBottom sx={{fontFamily:"montserrat, sans-serif", fontSize:"20px", letterSpacing:"1px", paddingBottom: "0px", margin:"auto", color:"#fff", width:"90%" }} component="p" >
-            {props.title}
+            {props.nom}
           </Typography>
           
-          <Typography gutterBottom sx={{lineHeight:"1.5",textDecorationThickness:"auto", letterSpacing:"0.7px", fontWeight:"400", textTransform: "uppercase", fontSize: "14px", fontFamily:"montserrat, sans-serif" ,paddingBottom: "20px", margin:"auto", color:"#fff", width:"90%", height:"auto", textOverflow:"ellipsis",   maxHeight: "90px", overflow: "hidden"}} component="p" >
-            {props.description}
+           <Typography gutterBottom sx={{lineHeight:"1.5",textDecorationThickness:"auto", letterSpacing:"0.7px", fontWeight:"400", textTransform: "uppercase", fontSize: "14px", fontFamily:"montserrat, sans-serif" ,paddingBottom: "20px", margin:"auto", color:"#fff", width:"90%", height:"auto", textOverflow:"ellipsis",   maxHeight: "90px", overflow: "hidden"}} component="p" >
+            {props.descriptions}
           </Typography>
           
           <Divider sx={{bgcolor:"#fff", width:"90%", m:"auto"}}/>
           
           <Typography gutterBottom sx={{fontFamily:"montserrat, sans-serif", fontSize:"20px", letterSpacing:"1px", paddingBottom: "0px", margin:"auto", color:"#fff", width:"90%" }} component="p" >
-            {props.prize}
-          </Typography>
+            {props.prix}
+          </Typography> 
           
           <Button disabled={props.disabledState} sx={{bgcolor:"#14ca8d", m:"auto", width:"95%", color:"#fff"}}
             onClick={ () => {
               const item = {
+                id: props.itemId,
                 title: props.title,
-                description: props.description,
                 price: props.price,
               };
               localStorage.setItem("item", JSON.stringify(item));
-            }}>
+            }}
+            >
             <AddShoppingCartIcon sx={{color:"#fff"}}/>
             Ajouter
           </Button>
