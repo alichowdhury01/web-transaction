@@ -25,7 +25,7 @@ function Home() {
 
 
         setFirstRowItems(result[0].slice(0, 6));
-        setSecondRowItems(result[0].slice(6, 12));
+        setSecondRowItems(result[0].slice(6, 1));
       } catch (error) {
         console.error(error);
       }
@@ -54,7 +54,7 @@ function Home() {
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
-        {firstRowItems.map((item) => ( <ItemCard key={item.id} imageSrc={"../"+item.images} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
+        {firstRowItems.map((item) => ( <ItemCard key={item.id} imageSrc={"./"+item.images} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
