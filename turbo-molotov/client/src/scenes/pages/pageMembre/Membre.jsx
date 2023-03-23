@@ -33,8 +33,8 @@ const Membre = () => {
     const handleOpenAdressL = () => setOpenAdressL(true);
     const handleCloseAdressL = () => setOpenAdressL(false);
 
-  
-    const handleAccount = async () => {
+    React.useEffect(() => {
+      const handleAccount = async () => {
       let data = new FormData();
       data.append('email', sessionStorage.getItem('email'));
       data.append('action', 'getAccount');
@@ -50,7 +50,7 @@ const Membre = () => {
       } catch (error) {
         console.error(error+"error");
       }
-    }
+    };
 
     const handleAdressFacturation = async () => {
       let data = new FormData();
@@ -69,7 +69,34 @@ const Membre = () => {
       } catch (error) {
         console.error(error+"error");
       }
+    }    
+    const handleAdressLivraison = async () => {
+      let data = new FormData();
+      data.append('email', sessionStorage.getItem('email'));
+      data.append('action', 'getAdresssLivraison');
+      try {
+        const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurMembre.php', {
+        method: 'POST',
+        body: data
+        });
+        const result = await response.json();
+        setAdresseLivraison(result[0][0].adresse);
+        setVilleLivraison(result[0][0].ville);
+        setProvinceLivraison(result[0][0].province);
+        setCodePostalLivraison(result[0][0].cp);
+      } catch (error) {
+        console.error(error+"error");
+      }
     }
+    handleAccount();
+    handleAdressFacturation();
+    handleAdressLivraison();
+    },[]);
+
+  
+    
+
+
 
     const handleUpdateAdressFacturation = async (event) => {
         event.preventDefault();
@@ -99,24 +126,7 @@ const Membre = () => {
         }        
     }
 
-    const handleAdressLivraison = async () => {
-      let data = new FormData();
-      data.append('email', sessionStorage.getItem('email'));
-      data.append('action', 'getAdresssLivraison');
-      try {
-        const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurMembre.php', {
-        method: 'POST',
-        body: data
-        });
-        const result = await response.json();
-        setAdresseLivraison(result[0][0].adresse);
-        setVilleLivraison(result[0][0].ville);
-        setProvinceLivraison(result[0][0].province);
-        setCodePostalLivraison(result[0][0].cp);
-      } catch (error) {
-        console.error(error+"error");
-      }
-    }
+
 
     const handleUpdateAdressLivraison = async (event) => {
         event.preventDefault();
@@ -179,7 +189,7 @@ const Membre = () => {
 
 
   return (
-    <Box onLoad={handleAccount()}
+    <Box 
       bgcolor={'#1f143d'}
       width={'100vw'}
       display="flex"
@@ -263,7 +273,7 @@ const Membre = () => {
               marginTop='3rem'
               marginBottom='3rem'>
 
-              <Box onLoad={handleAdressFacturation()}
+              <Box 
                 bgcolor='#0c0020'
                 display="flex"
                 flexDirection="column"
@@ -336,7 +346,7 @@ const Membre = () => {
                 </Modal>               
               </Box>
 
-                <Box onLoad={handleAdressLivraison()}
+                <Box 
                   bgcolor='#0c0020'
                   display="flex"
                   flexDirection="column"
@@ -406,14 +416,8 @@ const Membre = () => {
                     </Box>
                 </Modal>               
                 </Box>
-
-
-
             </Box>
-
         </Box>
-
-        
     </Box>
   )
 }
