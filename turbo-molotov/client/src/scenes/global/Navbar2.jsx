@@ -4,7 +4,7 @@ import { Badge, Box, Button, IconButton, Typography, ThemeProvider } from "@mui/
 import { SearchBar } from "../../components";
 import { PersonOutline, ShoppingBagOutlined } from "@mui/icons-material";
 import { useNavigate, Link } from "react-router-dom";
-import { shades, theme } from "../../theme";
+import { shades } from "../../theme";
 import { setIsCartOpen } from "../../state";
 
 export const Navbar2 = () => {
@@ -45,16 +45,16 @@ return (
         <Box display="flex"flexDirection="row-reverse" float="right" width={"65%"} margin="auto">
             {authenticated ? (
             <>
-            <Button onClick={handleLogout}>
-                <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
+            <Button onClick={handleLogout} component={Link} to={"/"}>
+                <Typography  sx={{color:"#fff", textDecoration:"none"}}>
                     Déconnexion
                 </Typography>
             </Button> 
 
             </>
             ) : ( 
-            <Button>
-                <Typography component={Link} to={"/signin"} sx={{color:"#fff", textDecoration:"none"}}>
+            <Button component={Link} to={"/signin"}>
+                <Typography  sx={{color:"#fff", textDecoration:"none"}}>
                     Connexion
                 </Typography>
             </Button>
@@ -63,8 +63,8 @@ return (
         {/*Middle nav */}
         <Box display ="flex" flexDirection="row" width="65%" height="80px" margin="auto" justifyContent="space-between" alignItems="center">
             <Box margin="auto auto auto 0" float="left">
-                <Button>
-                    <Typography component={Link} to={"/"} variant="h2" sx={{color:"#fff", textDecoration:"none"}}>
+                <Button component={Link} to={"/"}>
+                    <Typography  variant="h2" sx={{color:"#fff", textDecoration:"none"}}>
                         TURBO-MOLOTOV
                     </Typography>
                 </Button>
@@ -88,23 +88,18 @@ return (
         {/*Lower nav */}
         <Box display="flex" flexDirection="row" width="80%" height="50px" margin="auto" justifyContent="space-between" alignItems="center">
             <Box display="flex" flexDirection="row" columnGap="20px" margin="auto">
-                <Button >
-                    <Typography component={Link} to={"/"} sx={{color:"#fff", textDecoration:"none"}}>
+                <Button component={Link} to={"/"}>
+                    <Typography  sx={{color:"#fff", textDecoration:"none"}}>
                         Acceuil
                     </Typography>
                 </Button>
-                <Button >
-                    <Typography component={Link} to={"/produits"} sx={{color:"#fff", textDecoration:"none"}}>
-                        Produits
-                    </Typography>
-                </Button>
-                <Button >
-                    <Typography component={Link} to={"/propos"} sx={{color:"#fff", textDecoration:"none"}}>
+                <Button component={Link} to={"/propos"}>
+                    <Typography  sx={{color:"#fff", textDecoration:"none"}}>
                         À propos
                     </Typography>
                 </Button>
-                <Button >
-                    <Typography component={Link} to={"/contact"} sx={{color:"#fff", textDecoration:"none"}}>
+                <Button component={Link} to={"/contact"}>
+                    <Typography  sx={{color:"#fff", textDecoration:"none"}}>
                         Contact
                     </Typography>
                 </Button>

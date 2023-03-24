@@ -9,6 +9,17 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 export default function ItemCard(props) {
+  const addToCart = () => {
+    const item = {
+      id : props.id,
+      title: props.nom,
+      price: props.price
+    };
+    const existingData = localStorage.getItem("cartItems");
+    let cartItems = existingData ? JSON.parse(existingData) : [];
+    cartItems.push(item);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  };
 
   return (
     <Box display="flex" flexDirection="column" width="20%"  >
@@ -33,23 +44,11 @@ export default function ItemCard(props) {
             {props.prix}
           </Typography> 
           
-          <Button sx={{bgcolor:"#14ca8d", m:"auto", width:"95%", color:"#fff"}}
-            onClick={ () => {
-              const item = {
-                id: props.itemId,
-                title: props.title,
-                price: props.price,
-              };
-              localStorage.setItem("item", JSON.stringify(item));
-            }}
-            >
+          <Button sx={{bgcolor:"#14ca8d", m:"auto", width:"95%", color:"#fff"}} onClick={addToCart}>
             <AddShoppingCartIcon sx={{color:"#fff"}}/>
             Ajouter
           </Button>
         </Box>
-
-
-
     </Box>
   )
 }
