@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import {  Navbar2, Home, Connexion, Membre, ContactUs, Admin, Panier, CartMenu } from "./scenes/index";
+import CartCard from "./components/CartCard";
 
 
 let routePath;
@@ -38,6 +39,7 @@ function App() {
           <Route path="/membre" element={<Membre />}/>
           <Route path="/contact" element={<ContactUs />}/>
           <Route path="/panier" element={<Panier />}/>
+          <Route path="/cart" element={<CartCard/>}/>
         </Routes>
         <CartMenu />
       </BrowserRouter>

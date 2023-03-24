@@ -167,6 +167,28 @@ function EnhancedTableToolbar(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+
+  const ajoutArticle = async() => {
+  
+    let formAjout = document.getElementById("formAjout");
+    let data = new FormData(formAjout);
+    data.append('action', 'createArticle');
+    try {
+        const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php', {
+            method: 'POST',
+            body: data
+        });
+        setAlert(true);
+        setTimeout(() => {
+          formAjout.handleClose();
+        }, 4000);
+        const json = await response.text();
+        console.log(json);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   return (
     <Toolbar
       sx={{
@@ -239,7 +261,7 @@ function EnhancedTableToolbar(props) {
                   <TextField id="inputPrix" label="Prix" name="prix" variant="outlined" sx={{marginTop:"15px"}}/>
                   <TextField id="inputQuantiteInventaire" label="Quantité" name="quantiteInventaire" variant="outlined" sx={{marginTop:"15px"}}/>
                   <Input id="inputImages" name="image" variant="outlined"  type="file" sx={{marginTop:"15px"}} />
-                  <Button onClick={ajoutArticle} variant="contained" sx={{marginTop:"15px", backgroundColor:"#386fbb", color:"#fff"}}>Ajouter</Button>
+                  <Button onClick={ajoutArticle()} variant="contained" sx={{marginTop:"15px", backgroundColor:"#386fbb", color:"#fff"}}>Ajouter</Button>
                   <Alert id = 'msgAjout'></Alert>
                 </ThemeProvider>
                 </Box>

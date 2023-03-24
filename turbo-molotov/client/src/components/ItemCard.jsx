@@ -13,8 +13,11 @@ export default function ItemCard(props) {
     const item = {
       id : props.id,
       title: props.nom,
-      price: props.price
+      price: props.prix,
+      quantity: props.quantity,
+      itemImage:  props.imageSrc
     };
+    console.log(item.itemImage);
     const existingData = localStorage.getItem("cartItems");
     let cartItems = existingData ? JSON.parse(existingData) : [];
     cartItems.push(item);
@@ -30,6 +33,8 @@ export default function ItemCard(props) {
 
         <Box height={"295px"} m="auto" display="flex" flexDirection="column" width="100%" bgcolor="#0c0020" borderRadius='10px' justifyContent="center">
           <Typography sx={{display:"none"}}>{props.id}</Typography>
+          <Typography sx={{display:"none"}}>{props.quantity}</Typography>
+          <Typography sx={{display:"none"}}>{props.imageSrc}</Typography>
           <Typography gutterBottom sx={{fontFamily:"montserrat, sans-serif", fontSize:"20px", letterSpacing:"1px", paddingBottom: "0px", margin:"auto", color:"#fff", width:"90%" }} component="p" >
             {props.nom}
           </Typography>

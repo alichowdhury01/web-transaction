@@ -54,11 +54,11 @@ function Home() {
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
-        {firstRowItems.map((item) => ( <ItemCard key={item.id} imageSrc={require("../../assets/images/"+item.images)} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
+        {firstRowItems.map((item) => ( <ItemCard key={item.id} quantity={item.quantiteInventaire} imageSrc={require("../../assets/images/"+item.images)} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
       </Box>
 
       <Box display="flex" flexDirection="row" width="65%" margin="30px auto 30px auto" gap="15px" paddingTop="5px" bgcolor={shades.primary[600]}>
-        {secondRowItems.map((item) => ( <ItemCard key={item.id} imageSrc={require("../../assets/images/"+item.images)} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
+        {secondRowItems.map((item) => ( <ItemCard key={item.id} quantity={item.quantiteInventaire} imageSrc={require("../../assets/images/"+item.images)} id={item.id}  nom={item.nom} descriptions={item.descriptions} prix={item.prix} disabledState={false} />))}
       </Box> 
 
     </Box>

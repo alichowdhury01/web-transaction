@@ -4,6 +4,7 @@ import SearchBar from "./SearchBar";
 import SideCard from "./SideCard";
 import MainCarousel from "./MainCarousel";
 import ItemCard from "./ItemCard";
+import CartCard from "./CartCard";
 
 export {
 
@@ -11,5 +12,6 @@ export {
     SearchBar,
     SideCard,
     MainCarousel,
-    ItemCard
+    ItemCard,
+    CartCard
 };

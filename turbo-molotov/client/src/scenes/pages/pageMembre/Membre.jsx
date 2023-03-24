@@ -93,11 +93,6 @@ const Membre = () => {
     handleAdressLivraison();
     },[]);
 
-  
-    
-
-
-
     const handleUpdateAdressFacturation = async (event) => {
         event.preventDefault();
         let data = new FormData(event.currentTarget);

@@ -1,17 +1,14 @@
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import styled from "@emotion/styled";
-import { shades } from "../../theme";
 import {
-  decreaseCount,
-  increaseCount,
   removeFromCart,
   setIsCartOpen,
 } from "../../state";
 import { useNavigate } from "react-router-dom";
+import { CartCard } from "../../components";
+import React from "react";
 
 const FlexBox = styled(Box)`
   display: flex;
@@ -20,6 +17,30 @@ const FlexBox = styled(Box)`
 `;
 
 const CartMenu = () => {
+ const [picture, setPicture] = React.useState([]); 
+
+  React.useEffect(() => {
+    const getPic = async () => {
+    const data = new FormData();
+    data.append("action", "getAllArticles");
+    try {
+      const response = fetch("http://localhost/web-transaction/turbo-molotov/server/article/controlleurArticle.php", {
+        method: "POST",
+        body: data,
+      });
+      const result = response.json();
+      setPicture(result);
+      console.log("oo"+result);
+      
+    } catch (error) {
+      console.error(error);
+      
+    }
+  };
+  getPic();
+  }, []);
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
@@ -59,64 +80,13 @@ const CartMenu = () => {
           </FlexBox>
 
           {/* CART LIST */}
-          <Box>
-            {cart.map((item) => (
-              <Box key={`${item.attributes.name}-${item.id}`}>
-                <FlexBox p="15px 0">
-                  <Box flex="1 1 40%">
-                    <img
-                      alt={item?.name}
-                      width="123px"
-                      height="164px"
-                      src={`http://localhost:2000${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
-                    />
-                  </Box>
-                  <Box flex="1 1 60%">
-                    <FlexBox mb="5px">
-                      <Typography fontWeight="bold">
-                        {item.attributes.name}
-                      </Typography>
-                      <IconButton
-                        onClick={() =>
-                          dispatch(removeFromCart({ id: item.id }))
-                        }
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </FlexBox>
-                    <Typography>{item.attributes.shortDescription}</Typography>
-                    <FlexBox m="15px 0">
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        border={`1.5px solid ${shades.neutral[500]}`}
-                      >
-                        <IconButton
-                          onClick={() =>
-                            dispatch(decreaseCount({ id: item.id }))
-                          }
-                        >
-                          <RemoveIcon />
-                        </IconButton>
-                        <Typography>{item.count}</Typography>
-                        <IconButton
-                          onClick={() =>
-                            dispatch(increaseCount({ id: item.id }))
-                          }
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      </Box>
-                      <Typography fontWeight="bold">
-                        ${item.attributes.price}
-                      </Typography>
-                    </FlexBox>
-                  </Box>
-                </FlexBox>
-                <Divider />
-              </Box>
-            ))}
-          </Box>
+          {cartItems.length > 0 && (
+            <Box>
+              {cartItems.map((item)=> (
+                <CartCard key={item.id} images={item.itemImage} title={item.title} id={item.id} price={item.price} quantity={item.quantity} />
+              ))}
+            </Box>
+          )}
 
           {/* ACTIONS */}
           <Box m="20px 0">
