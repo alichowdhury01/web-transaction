@@ -29,6 +29,7 @@ export default function CartCard(props) {
                     id="outlined-number"
                     label="Quantité"
                     type="number"
+                    defaultValue={1}
                     variant="outlined"
                     size='small'
         
