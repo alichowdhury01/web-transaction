@@ -2,15 +2,13 @@ import { Box, Button, Divider, IconButton, Typography, CardMedia } from "@mui/ma
 import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
-import {
-  removeFromCart,
-  setIsCartOpen,
-} from "../../state";
+import {setIsCartOpen, removeFromCart } from "../../state";
 import { useNavigate } from "react-router-dom";
 import { CartCard } from "../../components";
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import TextField from '@mui/material/TextField';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const FlexBox = styled(Box)`
   display: flex;
@@ -24,9 +22,6 @@ const CartMenu = () => {
 
 
   React.useEffect(() => {
-
-
-    
     const getPic = async () => {
     const data = new FormData();
     data.append("action", "getAllArticles");
@@ -39,12 +34,9 @@ const CartMenu = () => {
       setPicture(result);     
     } catch (error) {
       console.error(error);
-      
     }
   };
-
   getPic();
-
   }, []);
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
@@ -58,6 +50,18 @@ const CartMenu = () => {
     return total + itemPrice;
   }, 0);
 
+  const handleRemoveItem = (id) => {
+    dispatch(removeFromCart({ id }));
+
+
+    const newCartItems = cartItems.filter((item) => item.id !== id);
+    localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+    setDesiredQuantities((prev) => {
+      const newDesiredQuantities = { ...prev };
+      delete newDesiredQuantities[id];
+      return newDesiredQuantities;
+    });
+  };
   
 
   return (
@@ -129,9 +133,13 @@ const CartMenu = () => {
                             }}
                             value={desiredQuantities[item.id] || 1}
                         />
-                        <Typography variant="subtitle1" component="div">
+                        <Typography sx={{display:'none'}} variant="subtitle1" component="div">
                           Total: $ {(item.price * desiredQuantities[item.id]).toFixed(2)}
                         </Typography>
+                        <IconButton onClick={() => handleRemoveItem(item.id)} 
+                         sx={{width:"1rem", }} >
+                            <DeleteIcon  />
+                        </IconButton>
                  
                     </Box>
                 </Box>
