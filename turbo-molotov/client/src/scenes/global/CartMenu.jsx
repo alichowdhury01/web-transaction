@@ -42,6 +42,7 @@ const CartMenu = () => {
       
     }
   };
+
   getPic();
 
   }, []);
@@ -52,11 +53,10 @@ const CartMenu = () => {
   const cart = useSelector((state) => state.cart.cart);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
 
-  const totalPrice = cartItems.reduce((total, item) => {
-    return total + item.price * item.quantityInCart;
+  const subtotal = cartItems.reduce((total, item) => {
+    const itemPrice = item.price * (desiredQuantities[item.id] || 1);
+    return total + itemPrice;
   }, 0);
-
-
 
   
 
@@ -127,11 +127,12 @@ const CartMenu = () => {
                                 [itemId]: newQuantity,
                               });
                             }}
-                            value={desiredQuantities[item.id] || 0}
+                            value={desiredQuantities[item.id] || 1}
                         />
                         <Typography variant="subtitle1" component="div">
                           Total: $ {(item.price * desiredQuantities[item.id]).toFixed(2)}
                         </Typography>
+                 
                     </Box>
                 </Box>
                 <CardMedia
@@ -148,7 +149,7 @@ const CartMenu = () => {
           <Box m="20px 0">
             <FlexBox m="20px 0">
               <Typography color={'#fff'} fontWeight="bold">SUBTOTAL</Typography>
-             <Typography color={'#fff'} fontWeight="bold">  ${totalPrice.toFixed(2)}</Typography> 
+             <Typography color={'#fff'} fontWeight="bold">  ${subtotal.toFixed(2)}</Typography> 
             </FlexBox>
             <Button
               sx={{
