@@ -7,6 +7,13 @@ import TextField from '@mui/material/TextField';
 
 export default function CartCard(props) {
   const theme = useTheme();
+  const total = props.price * props.quantityInCart;
+  const [quantity, setQuantity] = React.useState(1);
+
+  const handleQuantityChange = (event) => {
+    const newQuantity = parseInt(event.target.value);
+    setQuantity(newQuantity);
+  };
 
   return (
     <Box sx={{ display: 'flex', p:"0.5rem", m:'0.5rem', justifyContent:'space-between', bgcolor:'#fff'}}>
@@ -32,8 +39,11 @@ export default function CartCard(props) {
                     defaultValue={1}
                     variant="outlined"
                     size='small'
-        
+                    onChange={(event) => props.handleQuantityChange(props.id, event.target.value)}
                 />
+                <Typography variant="subtitle1" component="div">
+                    Total: ${total}
+                </Typography>
             </Box>
 
         </Box>

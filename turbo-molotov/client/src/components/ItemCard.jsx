@@ -6,10 +6,12 @@ import Divider from '@mui/material/Divider';
 import { Button } from '@mui/material';
 import { productshadow } from '../assets/cardPicture';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-
+import { addToCart } from '../state';
+import { useDispatch } from 'react-redux';
 
 export default function ItemCard(props) {
-  const addToCart = () => {
+  const dispatch = useDispatch();
+  const addToCarts = () => {
     const item = {
       id : props.id,
       title: props.nom,
@@ -22,6 +24,7 @@ export default function ItemCard(props) {
     let cartItems = existingData ? JSON.parse(existingData) : [];
     cartItems.push(item);
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    dispatch(addToCart({ item }));
   };
 
   return (
@@ -49,7 +52,7 @@ export default function ItemCard(props) {
             {props.prix}
           </Typography> 
           
-          <Button sx={{bgcolor:"#14ca8d", m:"auto", width:"95%", color:"#fff"}} onClick={addToCart}>
+          <Button sx={{bgcolor:"#14ca8d", m:"auto", width:"95%", color:"#fff"}} onClick={addToCarts}>
             <AddShoppingCartIcon sx={{color:"#fff"}}/>
             Ajouter
           </Button>

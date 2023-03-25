@@ -1,4 +1,4 @@
-import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Typography, CardMedia } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
@@ -8,18 +8,25 @@ import {
 } from "../../state";
 import { useNavigate } from "react-router-dom";
 import { CartCard } from "../../components";
-import React from "react";
+import React, { useRef } from "react";
+import { useEffect, useState } from "react";
+import TextField from '@mui/material/TextField';
 
 const FlexBox = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-
 const CartMenu = () => {
- const [picture, setPicture] = React.useState([]); 
+ const [picture, setPicture] = React.useState([]);
+ const [desiredQuantities, setDesiredQuantities] = useState({});
+ const quantityInputRef = useRef(null);
+
 
   React.useEffect(() => {
+
+
+    
     const getPic = async () => {
     const data = new FormData();
     data.append("action", "getAllArticles");
@@ -29,15 +36,14 @@ const CartMenu = () => {
         body: data,
       });
       const result = response.json();
-      setPicture(result);
-      console.log("oo"+result);
-      
+      setPicture(result);     
     } catch (error) {
       console.error(error);
       
     }
   };
   getPic();
+
   }, []);
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
@@ -46,9 +52,13 @@ const CartMenu = () => {
   const cart = useSelector((state) => state.cart.cart);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
 
-  const totalPrice = cart.reduce((total, item) => {
-    return total + item.count * item.attributes.price;
+  const totalPrice = cartItems.reduce((total, item) => {
+    return total + item.price * item.quantityInCart;
   }, 0);
+
+
+
+  
 
   return (
     <Box
@@ -83,7 +93,53 @@ const CartMenu = () => {
           {cartItems.length > 0 && (
             <Box>
               {cartItems.map((item)=> (
-                <CartCard key={item.id} images={item.itemImage} title={item.title} id={item.id} price={item.price} quantity={item.quantity} />
+                // <CartCard key={item.id} images={item.itemImage} title={item.title} id={item.id} price={item.price} quantity={item.quantity} quantityInCart={1} />
+                <Box key={item.id} sx={{ display: 'flex', p:"0.5rem", m:'0.5rem', justifyContent:'space-between', bgcolor:'#fff'}}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ display:'flex', flexDirection: 'column'}}>
+                        <Typography   component="div" variant="h5">
+                            Titre: {item.title}
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{fontStyle:'italic'}} component="div">
+                            Item#: {item.id}
+                        </Typography>
+                        <Typography  variant="subtitle1"  component="div">
+                            {item.price}$
+                        </Typography>          
+                        <Typography variant="subtitle1" component="div">
+                            Qté disponible: {item.quantity}
+                        </Typography>
+                        <TextField
+                            sx={{ width: 100 }}
+                            id="outlined-number"
+                            label="Quantité"
+                            type="number"
+                            min={1}
+                            variant="outlined"
+                            size='small'
+                            inputProps={{ min: 1, max: item.quantity }}
+                            ref={quantityInputRef}
+                            onChange={(event) => {
+                              const itemId = item.id;
+                              const newQuantity = parseInt(event.target.value);
+                              setDesiredQuantities({
+                                ...desiredQuantities,
+                                [itemId]: newQuantity,
+                              });
+                            }}
+                            value={desiredQuantities[item.id] || 0}
+                        />
+                        <Typography variant="subtitle1" component="div">
+                          Total: $ {(item.price * desiredQuantities[item.id]).toFixed(2)}
+                        </Typography>
+                    </Box>
+                </Box>
+                <CardMedia
+                    component="img"
+                    sx={{ width: 151}}
+                    src={item.itemImage}
+                />
+            </Box>
               ))}
             </Box>
           )}
@@ -92,7 +148,7 @@ const CartMenu = () => {
           <Box m="20px 0">
             <FlexBox m="20px 0">
               <Typography color={'#fff'} fontWeight="bold">SUBTOTAL</Typography>
-              <Typography color={'#fff'} fontWeight="bold">${totalPrice}</Typography>
+             <Typography color={'#fff'} fontWeight="bold">  ${totalPrice.toFixed(2)}</Typography> 
             </FlexBox>
             <Button
               sx={{
