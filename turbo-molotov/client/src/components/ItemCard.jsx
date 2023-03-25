@@ -10,6 +10,7 @@ import { addToCart } from '../state';
 import { useDispatch } from 'react-redux';
 
 export default function ItemCard(props) {
+  
   const dispatch = useDispatch();
   const addToCarts = () => {
     const item = {
@@ -42,7 +43,7 @@ export default function ItemCard(props) {
             {props.nom}
           </Typography>
           
-           <Typography gutterBottom sx={{lineHeight:"1.5",textDecorationThickness:"auto", letterSpacing:"0.7px", fontWeight:"400", textTransform: "uppercase", fontSize: "14px", fontFamily:"montserrat, sans-serif" ,paddingBottom: "20px", margin:"auto", color:"#fff", width:"90%", height:"auto", textOverflow:"ellipsis",   maxHeight: "90px", overflow: "hidden"}} component="p" >
+           <Typography gutterBottom sx={{lineHeight:"1.5",textDecorationThickness:"auto", letterSpacing:"0.7px", fontWeight:"400", textTransform: "uppercase", fontSize: "14px", fontFamily:"montserrat, sans-serif" ,paddingBottom: "20px", margin:"auto", color:"#fff", width:"90%", height:"auto", textOverflow:"ellipsis",   maxHeight: "90px", overflow: "auto"}} component="p" >
             {props.descriptions}
           </Typography>
           
