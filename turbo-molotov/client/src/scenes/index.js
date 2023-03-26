@@ -5,7 +5,7 @@ import Connexion from "./pages/connexion/Connexion";
 import Membre from "./pages/pageMembre/Membre";
 import ContactUs from "./form/contactUsForm/ContactUs";
 import Admin from "./pages/pageAdmin/Admin";
-import Panier from "./pages/pagePanier/Panier";
+import Checkout from "./pages/pageCheckout/Checkout";
 import CartMenu from "./global/CartMenu";
 
 export {
@@ -15,6 +15,6 @@ export {
     Home,
     Connexion,
     ContactUs,
-    Panier,
+    Checkout,
     CartMenu,
 };
