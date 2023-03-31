@@ -2,7 +2,7 @@
     $SERVEUR = "localhost";
     $USAGER = "root";
     $PASS = "";
-    $BD = "bdboutique";
+    $BD = "bdcontacts";
     try {
         $dns = "mysql:host=$SERVEUR;dbname=$BD";
         $options = array(
