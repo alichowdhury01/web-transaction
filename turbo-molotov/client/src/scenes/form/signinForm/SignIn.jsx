@@ -27,11 +27,12 @@ export default function SignIn() {
           body: data
       });
       const result = await response.json();
-      console.log("fetch results: " + JSON.stringify(result));
+      //console.log("fetch results: " + JSON.stringify(result));
       if(result.status === "OK"){
         localStorage.setItem('session', result.session);
+        sessionStorage.setItem('email', result.email);
         setAuthenticated(true);
-        console.log(localStorage.getItem("session"));
+        //console.log(localStorage.getItem("session"));
         navigate("/"+result.page);
         window.location.reload();
       };

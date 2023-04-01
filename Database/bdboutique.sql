@@ -23,11 +23,42 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+
+CREATE DATABASE IF NOT EXISTS bdboutique DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+USE bdboutique;
+
+--
+-- Structure de la table `adressefacturation`
+--
+
+CREATE TABLE `adressefacturation` (
+  `courriel` varchar(50) NOT NULL,
+  `adresse` varchar(100) DEFAULT NULL,
+  `ville` varchar(50) DEFAULT NULL,
+  `province` varchar(50) DEFAULT NULL,
+  `cp` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `adresselivraison`
+--
+
+CREATE TABLE `adresselivraison` (
+  `courriel` varchar(50) NOT NULL,
+  `adresse` varchar(100) DEFAULT NULL,
+  `ville` varchar(50) DEFAULT NULL,
+  `province` varchar(50) DEFAULT NULL,
+  `cp` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Structure de la table `articles`
 --
-
-USE bdboutique;
 
 CREATE TABLE `articles` (
   `id` int(10) NOT NULL,
@@ -37,7 +68,7 @@ CREATE TABLE `articles` (
   `prix` double NOT NULL,
   `quantiteInventaire` int(11) NOT NULL,
   `images` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `articles`
@@ -74,7 +105,7 @@ CREATE TABLE `connexion` (
   `pass` varchar(30) DEFAULT NULL,
   `role` varchar(30) DEFAULT NULL,
   `statut` char(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `connexion`
@@ -108,7 +139,7 @@ CREATE TABLE `membres` (
   `courriel` varchar(80) NOT NULL,
   `sexe` varchar(10) NOT NULL,
   `dateNaissance` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `membres`
@@ -132,6 +163,18 @@ INSERT INTO `membres` (`id`, `nom`, `prenom`, `courriel`, `sexe`, `dateNaissance
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `adressefacturation`
+--
+ALTER TABLE `adressefacturation`
+  ADD PRIMARY KEY (`courriel`);
+
+--
+-- Index pour la table `adresselivraison`
+--
+ALTER TABLE `adresselivraison`
+  ADD PRIMARY KEY (`courriel`);
 
 --
 -- Index pour la table `articles`
@@ -171,6 +214,18 @@ ALTER TABLE `membres`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `adressefacturation`
+--
+ALTER TABLE `adressefacturation`
+  ADD CONSTRAINT `adressefacturation_ibfk_1` FOREIGN KEY (`courriel`) REFERENCES `membres` (`courriel`);
+
+--
+-- Contraintes pour la table `adresselivraison`
+--
+ALTER TABLE `adresselivraison`
+  ADD CONSTRAINT `adresselivraison_ibfk_1` FOREIGN KEY (`courriel`) REFERENCES `membres` (`courriel`);
 
 --
 -- Contraintes pour la table `connexion`

@@ -9,7 +9,7 @@
         $prix = $_POST['prix'];
         $description = $_POST['description'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
-        $repArticle = "../database/images/";
+        $repArticle = "../../client/src/assets/images/";
         $nouveauNom = "default.png";
 
         try{
@@ -42,7 +42,7 @@
         $prix = $_POST['prix'];
         $description = $_POST['descriptions'];
         $quantiteInventaire = $_POST['quantiteInventaire'];
-        $repArticle = "../../client/src/assets/cardPicture/";
+        $repArticle = "../../client/src/assets/images/";
         $nouveauNom = "default.png";
 
         try{
@@ -52,6 +52,7 @@
                 $extension = strrchr($nomOriginal,'.');
                 $nouveauNom = sha1($nom.time()).$extension;
                 @move_uploaded_file($tmpFile, $repArticle.$nouveauNom);
+                // unlink(); //TO DO
             }  
             global $connexion;
             $requette = "UPDATE articles SET nom = ?, categorie = ?, descriptions = ?, prix = ?, quantiteInventaire = ?, images = ? WHERE id = ?";
@@ -114,8 +115,7 @@
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $msg = array("status" => "OK","data" => $result);
-            echo json_encode($msg);
+            echo json_encode(array($result));
         }catch(PDOException $e){
             $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
             echo json_encode($msg);
@@ -131,10 +131,9 @@
             $requette = "SELECT * FROM articles WHERE categorie = ?";
             $stmt = $connexion->prepare($requette);
             $stmt->execute([$categorie]);
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 
-            $msg = array("status" => "OK","msg" => $result);
-            echo json_encode($msg['msg']);
+            echo json_encode(array($result));
         }catch(PDOException $e){
             $msg = array("status" => "KO","msg" => "Erreur de recuperation des articles");
             echo json_encode($msg);
