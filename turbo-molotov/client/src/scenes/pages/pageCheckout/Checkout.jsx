@@ -98,7 +98,7 @@ const Checkout = () => {
           method: "POST",
           body: data,
         });
-        const result = response.json();
+        const result = JSON.stringify(response);
         setPicture(result);     
       } catch (error) {
         console.error(error);
