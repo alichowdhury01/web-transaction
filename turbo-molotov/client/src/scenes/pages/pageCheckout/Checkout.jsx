@@ -427,7 +427,11 @@ const Checkout = () => {
                 ],
             });
         }}
-
+        onApprove={(data, action) => {
+            return action.order.capture().then(function(details) {
+                alert("Transaction completed by " + details.payer.name.given_name);
+            });
+        }}
      />
   </PayPalScriptProvider>
 </Box>
