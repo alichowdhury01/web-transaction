@@ -1,10 +1,9 @@
-import { Box, Button, Divider, IconButton, Typography, CardMedia } from "@mui/material";
+import { Box, Button, IconButton, Typography, CardMedia } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
 import {setIsCartOpen, removeFromCart } from "../../state";
 import { useNavigate } from "react-router-dom";
-import { CartCard } from "../../components";
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import TextField from '@mui/material/TextField';
@@ -44,7 +43,6 @@ const CartMenu = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
-
   const subtotal = cartItems.reduce((total, item) => {
     const itemPrice = item.price * (desiredQuantities[item.id] || 1);
     return total + itemPrice;

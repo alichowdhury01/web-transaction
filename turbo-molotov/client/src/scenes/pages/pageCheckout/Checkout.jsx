@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef} from 'react'
 import { Box, Typography, Button, Modal,TextField, IconButton, CardMedia } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 const style = {
     position: 'absolute',
@@ -13,8 +13,6 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-
-
 
 const Checkout = () => {
     const [open, setOpen] = useState(false);
@@ -29,19 +27,17 @@ const Checkout = () => {
     const [villeLivraison, setVilleLivraison] = useState('');
     const [provinceLivraison, setProvinceLivraison] = useState('');
     const [codePostalLivraison, setCodePostalLivraison] = useState('');
-    const handleOpenPwd = () => setOpen(true);
-    const handleClosePwd = () => setOpen(false);
+
+
     const handleOpenAdressF = () => setOpenAdressF(true);
     const handleCloseAdressF = () => setOpenAdressF(false);
     const handleOpenAdressL = () => setOpenAdressL(true);
     const handleCloseAdressL = () => setOpenAdressL(false);
-    
+
     const [picture, setPicture] = React.useState([]);
     const [desiredQuantities, setDesiredQuantities] = useState({});
     const quantityInputRef = useRef(null);
    
-
-
     React.useEffect(() => {
         const handleAccount = async () => {
         let data = new FormData();
@@ -54,13 +50,10 @@ const Checkout = () => {
           });
           const result = await response.json();
           setName(result[0][0].nom + " " + result[0][0].prenom); 
-  
-  
         } catch (error) {
           console.error(error+"error");
         }
     };
-  
     const handleAdressFacturation = async () => {
       let data = new FormData();
       data.append('email', sessionStorage.getItem('email'));
@@ -116,7 +109,6 @@ const Checkout = () => {
     handleAdressLivraison();
     getPic();
     },[]);
-
       const handleUpdateAdressFacturation = async (event) => {
         event.preventDefault();
         let data = new FormData(event.currentTarget);
@@ -126,7 +118,6 @@ const Checkout = () => {
         const ville = data.get('ville');
         const province = data.get('province');
         const cp = data.get('cp');
-
         try {
             const response = await fetch('http://localhost/web-transaction/turbo-molotov/server/membre/controleurMembre.php', {
             method: 'POST',
@@ -145,7 +136,6 @@ const Checkout = () => {
             console.error(error+"error");
         }        
     }
-
     const handleUpdateAdressLivraison = async (event) => {
         event.preventDefault();
         let data = new FormData(event.currentTarget);
@@ -173,24 +163,21 @@ const Checkout = () => {
         } catch (error) {
             console.error(error+"error");
         }
-
     }
-
+    
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-
     const subtotal = cartItems.reduce((sum, item) => {
-        return sum + item.price * desiredQuantities[item.id];
+        const itemPrice= item.price * desiredQuantities[item.id] || 0;
+        return sum + itemPrice;
       }, 0);
-
   return (
     <Box
-        display={'flex'}
-        flexDirection={'column'}
-        width={'100vw'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        bgcolor={'#1f143d'}
-    >
+        display='flex'
+        flexDirection='column'
+        width='100%'
+        justifyContent='center'
+        alignItems='center'
+        bgcolor='#1f143d'>
         <Typography sx={{color:'#fff', margin:'2rem auto 0.5rem auto', textShadow:' 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36)'}} variant="h2">PAYEMENT SÉCURISÉ</Typography>
        <Box bgcolor="#0c0020" width="40%" marginTop="3rem">
             <Box 
@@ -236,36 +223,31 @@ const Checkout = () => {
                                     id="outlined-required"
                                     label="Adresse"
                                     name='adresse'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <TextField
                                     sx={{marginBottom:'0.5rem'}}
                                     required
                                     id="outlined-required"
                                     label="Ville"
                                     name='ville'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <TextField
                                     sx={{marginBottom:'0.5rem'}}
                                     required
                                     id="outlined-required"
                                     label="Province"
                                     name='province'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <TextField
                                     sx={{marginBottom:'0.5rem'}}
                                     required
                                     id="outlined-required"
                                     label="Code postal"
                                     name='cp'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <Button
                                  sx={{backgroundColor:'#1f143d', color:'#fff', textShadow:' 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36)'}} variant="contained"
-                                 type='submit'
-                                 >
+                                 type='submit'>
                                     <Typography  variant="p">Modifier</Typography>
                                 </Button>
                             </Box>
@@ -276,13 +258,12 @@ const Checkout = () => {
                 </Box>             
             </Box>
         </Box>
-
         <Box bgcolor="#0c0020" width="40%" marginTop="5rem">
             <Box 
                 border="1px solid blue" 
                 bgcolor="#386fbbb3" 
                 boxShadow="inset 0 1px 0 rgb(255 255 255 / 27%), 0 0 12px 1px rgb(37 146 238 / 80%)"  
-                width={'70%'} 
+                width='70%'
                 height="50px" 
                 margin="auto"  
                 sx={{transform:"translateY(-50%)", textShadow:"0 0 9px #4eb0f0, 0 0 9px #4eb0f0, 0 0 9px #4eb0f0, 0 0 9px #4eb0f0"}}  
@@ -322,36 +303,31 @@ const Checkout = () => {
                                     id="outlined-required"
                                     label="Adresse"
                                     name='adresse'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <TextField
                                     sx={{marginBottom:'0.5rem'}}
                                     required
                                     id="outlined-required"
                                     label="Ville"
                                     name='ville'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <TextField
                                     sx={{marginBottom:'0.5rem'}}
                                     required
                                     id="outlined-required"
                                     label="Province"
                                     name='province'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <TextField
                                     sx={{marginBottom:'0.5rem'}}
                                     required
                                     id="outlined-required"
                                     label="Code postal"
                                     name='cp'
-                                    variant="outlined"
-                                    />
+                                    variant="outlined"/>
                                 <Button
                                  sx={{backgroundColor:'#1f143d', color:'#fff', textShadow:' 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36), 0 0 12px rgba(100,162,235,.36)'}} variant="contained"
-                                 type='submit'
-                                 >
+                                 type='submit'>
                                     <Typography  variant="p">Modifier</Typography>
                                 </Button>
                             </Box>
@@ -362,13 +338,12 @@ const Checkout = () => {
             </Box>
             </Box>
         </Box>
-
         <Box bgcolor="#0c0020" width="40%" marginTop="5rem">
             <Box 
                 border="1px solid blue" 
                 bgcolor="#386fbbb3" 
                 boxShadow="inset 0 1px 0 rgb(255 255 255 / 27%), 0 0 12px 1px rgb(37 146 238 / 80%)"  
-                width={'70%'} 
+                width='70%'
                 height="50px" 
                 margin="auto"  
                 sx={{transform:"translateY(-50%)", textShadow:"0 0 9px #4eb0f0, 0 0 9px #4eb0f0, 0 0 9px #4eb0f0, 0 0 9px #4eb0f0"}}  
@@ -421,31 +396,40 @@ const Checkout = () => {
                         <Typography sx={{display:'none'}} variant="subtitle1" component="div">
                           Total: $ {(item.price * desiredQuantities[item.id]).toFixed(2)}
                         </Typography>
- 
-                 
                     </Box>
                 </Box>
                 <CardMedia
                     component="img"
                     sx={{ width: 151}}
-                    src={item.itemImage}
-                />
+                    src={item.itemImage}/>
             </Box>
               ))}
             </Box>
           )}
-
-
             </Box>
         </Box>
         <Typography variant="h3" sx={{color:"#fff", margin:"auto"}}>
     Subtotal: ${subtotal.toFixed(2)}
   </Typography>
+  <PayPalScriptProvider
+  options={{
+    "client-id": "Aam4isqBNlo0wKUSOM4qzKC0b5IyURrvcwETaX6kzcSoMnP5UZhL5t866QvGDa0i38zlLPfln2c2TcLW",
+  }}>
+    <PayPalButtons
+        createOrder={(data, action ) => {
+            return action.order.create({
+                purchase_units: [
+                {
+                    amount: {
+                    value: subtotal.toFixed(2),
+                    },
+                },
+                ],
+            });
+        }}
 
-
-
-    </Box>
-  )
-}
-
+     />
+  </PayPalScriptProvider>
+</Box>
+  )}
 export default Checkout
