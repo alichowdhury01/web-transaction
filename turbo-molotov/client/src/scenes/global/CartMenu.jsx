@@ -29,7 +29,7 @@ const CartMenu = () => {
         method: "POST",
         body: data,
       });
-      const result = response.json();
+      const result = JSON.stringify(response);
       setPicture(result);     
     } catch (error) {
       console.error(error);
@@ -43,6 +43,7 @@ const CartMenu = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
+  
   const subtotal = cartItems.reduce((total, item) => {
     const itemPrice = item.price * (desiredQuantities[item.id] || 1);
     return total + itemPrice;

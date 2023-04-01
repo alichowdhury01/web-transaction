@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef} from 'react'
 import { Box, Typography, Button, Modal,TextField, IconButton, CardMedia } from '@mui/material'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { removeFromCart } from '../../../state';
+import { useSelector, useDispatch } from "react-redux";
+
 
 const style = {
     position: 'absolute',
@@ -28,7 +32,7 @@ const Checkout = () => {
     const [provinceLivraison, setProvinceLivraison] = useState('');
     const [codePostalLivraison, setCodePostalLivraison] = useState('');
 
-
+    const dispatch = useDispatch();
     const handleOpenAdressF = () => setOpenAdressF(true);
     const handleCloseAdressF = () => setOpenAdressF(false);
     const handleOpenAdressL = () => setOpenAdressL(true);
@@ -98,7 +102,7 @@ const Checkout = () => {
           method: "POST",
           body: data,
         });
-        const result = response.json();
+        const result = JSON.stringify(response);
         setPicture(result);     
       } catch (error) {
         console.error(error);
@@ -166,10 +170,23 @@ const Checkout = () => {
     }
     
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const subtotal = cartItems.reduce((sum, item) => {
-        const itemPrice= item.price * desiredQuantities[item.id] || 0;
-        return sum + itemPrice;
+    const subtotal = cartItems.reduce((total, item) => {
+        const itemPrice= item.price * (desiredQuantities[item.id] || 1);
+        return total + itemPrice;
       }, 0);
+
+      const handleRemoveItem = (id) => {
+        dispatch(removeFromCart({ id }));
+    
+    
+        const newCartItems = cartItems.filter((item) => item.id !== id);
+        localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+        setDesiredQuantities((prev) => {
+          const newDesiredQuantities = { ...prev };
+          delete newDesiredQuantities[id];
+          return newDesiredQuantities;
+        });
+      };
   return (
     <Box
         display='flex'
@@ -396,6 +413,10 @@ const Checkout = () => {
                         <Typography sx={{display:'none'}} variant="subtitle1" component="div">
                           Total: $ {(item.price * desiredQuantities[item.id]).toFixed(2)}
                         </Typography>
+                        <IconButton  onClick={() => handleRemoveItem(item.id)} 
+                         sx={{width:"1rem"}} >
+                            <DeleteIcon  />
+                        </IconButton>
                     </Box>
                 </Box>
                 <CardMedia
@@ -421,16 +442,15 @@ const Checkout = () => {
                 purchase_units: [
                 {
                     amount: {
-                    value: subtotal.toFixed(2),
+                    value: subtotal.toFixed(2)+'',
                     },
                 },
                 ],
             });
         }}
-        onApprove={(data, action) => {
-            return action.order.capture().then(function(details) {
-                alert("Transaction completed by " + details.payer.name.given_name);
-            });
+        onApprove={async (data, action) => {
+            const details = await action.order.capture();
+            alert("Transaction completed by " + details.payer.name.given_name);
         }}
      />
   </PayPalScriptProvider>
