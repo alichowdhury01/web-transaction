@@ -139,7 +139,6 @@ const CartMenu = () => {
                          sx={{width:"1rem", }} >
                             <DeleteIcon  />
                         </IconButton>
-                 
                     </Box>
                 </Box>
                 <CardMedia
